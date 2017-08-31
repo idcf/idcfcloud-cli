@@ -1,0 +1,26 @@
+AllCops:
+  TargetRubyVersion: 2.2
+Metrics/BlockLength:
+  Exclude:
+    - '*.gemspec'
+    - 'test/**/*'
+Metrics/LineLength:
+  Exclude:
+    - 'test/**/*'
+Metrics/MethodLength:
+  Exclude:
+    - 'test/**/*'
+Metrics/ClassLength:
+  Exclude:
+    - 'test/**/*'
+Style/IdenticalConditionalBranches:
+  Exclude:
+    - 'test/**/*'
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'test/**/*'
+Metrics/AbcSize:
+  Exclude:
+    - 'test/**/*'
+LineLength:
+  Max: 100

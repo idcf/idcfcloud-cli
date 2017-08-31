@@ -1,0 +1,4 @@
+require 'idcf/cli/index'
+
+Idcf::Cli::Index.init
+Idcf::Cli::Index.start(ARGV)

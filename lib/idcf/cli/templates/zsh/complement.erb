@@ -1,0 +1,46 @@
+_idcfcloud()
+{
+  _arguments -C \
+  '1: :__idcfcloud_services' \
+  '*: :__idcfcloud_commands' \
+  && ret=0
+}
+
+__idcfcloud_services()
+{
+  local -a _c
+  _c=(<% @variables['top'].each do |v| %>"<%= v %>" <% end %>)
+
+  _describe -t commands Commands _c
+}
+
+__idcfcloud_commands()
+{
+  local -a _c
+
+  local names=()
+  for (( i=2; i < $CURRENT; i++)); do
+    names+=( ${words[i]} )
+  done
+  local val_name="$(IFS=_; echo "${names[*]}")"
+  if [ ${words[$CURRENT - 1]} = "help" ]; then
+    names=${names[1, -2]}
+    val_name="$(IFS=_; echo "${names[*]}")"
+  fi
+
+  case $val_name in<%
+    @variables.each do |k, v|
+      next if k == 'top'
+  %>
+      (<%= k %>)
+      _c=(<% v.each do |command| %>"<%= command %>" <% end %>)
+      ;;<% end %>
+      ("")
+      _c=(<% @variables['top'].each do |v| %>"<%= v %>" <% end %>)
+      ;;
+  esac
+
+  _describe -t commands Commands _c
+}
+
+compdef _idcfcloud idcfcloud

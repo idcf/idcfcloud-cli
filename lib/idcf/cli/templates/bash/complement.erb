@@ -1,0 +1,37 @@
+#!/bin/bash
+#set -eu
+
+_idcfcloud()
+{
+  <% @variables.each do |k, v| %>local <%= k %>="<%= v.join(' ') %>"
+  <% end %>
+
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  local list=""
+  local names=()
+  local index=$(( $COMP_CWORD - 1 ))
+  local val_name=""
+
+  if [ $COMP_CWORD = 1 ]; then
+    list=$top
+  else
+    for (( i=1; i <= $index; i++)); do
+      names+=( ${COMP_WORDS[i]} )
+    done
+
+    val_name="$(IFS=_; echo "${names[*]}")"
+    if [ ${COMP_WORDS[index]} = "help" ]; then
+      names=(${names[@]:0:((${#names[@]}-1))})
+      val_name="$(IFS=_; echo "${names[*]}")"
+    fi
+
+    if [ "${val_name}" = "" ]; then
+      val_name="top"
+    fi
+    list=${!val_name:-}
+  fi
+
+  COMPREPLY=( $(compgen -W "$list" -- $cur) )
+}
+
+complete -F _idcfcloud idcfcloud

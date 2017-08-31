@@ -1,0 +1,10 @@
+output: json #json xml csv table
+ilb:
+  v1:
+    host:
+      jp-east: ilb.jp-east.idcfcloud.com
+      jp-east-2: ilb.jp-east-2.idcfcloud.com
+      jp-west: ilb.jp-west.idcfcloud.com
+your:
+  v1:
+    host: your.idcfcloud.com
