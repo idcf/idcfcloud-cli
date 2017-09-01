@@ -7,7 +7,7 @@ Note: requires Ruby 2.2.7 or higher.
 Carry out the next command to initialize.
 
 ```
-bin/idcfcloud init
+$ idcfcloud init
 ```
 
 If you want each user to have their own configuration file, use the "--no-global" option and have the file created in the following:
@@ -30,7 +30,7 @@ $ bundle install --path vendor/bundle
 ## Usage
 
 ```
-$ bin/idcfcloud <serviceName> <command> [attributes] [option]
+$ idcfcloud <serviceName> <command> [attributes] [option]
 ```
 
 If you want to set more than one attribute, use the json form.
@@ -53,7 +53,7 @@ https://github.com/idcf/idcf-ilb-ruby
 add server
 
 ``` code
-bin/idcfcloud ilb add_server_for_protocol <lb_id> <protocol> <protocol_port> <data> [option]
+$ idcfcloud ilb add_server_for_protocol <lb_id> <protocol> <protocol_port> <data> [option]
 ```
 
 | data | type | example | note |
@@ -64,7 +64,7 @@ bin/idcfcloud ilb add_server_for_protocol <lb_id> <protocol> <protocol_port> <da
 delete server
 
 ``` code
-bin/idcfcloud ilb delete_server_for_protocol <lb_id> <protocol> <protocol_port> <data> [option]
+$ idcfcloud ilb delete_server_for_protocol <lb_id> <protocol> <protocol_port> <data> [option]
 ```
 
 #### <a name="your"></a>Your
@@ -77,7 +77,7 @@ http://docs.idcf.jp/cloud/billing/
 Running the following test code is possible, but not recommended nor supported.  Run only a code of a target.
 
 ```code
-bundle exec ruby test/run_test.rb idcf/cli/controller/test_billing.rb
+$ bundle exec ruby test/run_test.rb idcf/cli/controller/test_billing.rb
 ```
 
 In order to avoid collapsed setting in ILB, make sure you understand how things work before running a code.
