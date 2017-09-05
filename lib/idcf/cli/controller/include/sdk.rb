@@ -23,19 +23,30 @@ module Idcf
           end
 
           def client_send(client, command, *args)
-            arg = set_headers(client.public_method(command.to_sym), *args.dup)
-
+            method = client.public_method(command.to_sym)
+            arg    = set_headers(method, args.dup)
+            arg    = check_job_arg(method, arg) if command.to_s == 'check_job'
             client.__send__(command.to_sym, *arg)
           end
 
-          def set_headers(method, *args)
-            method.parameters.each do |k, v|
+          def set_headers(method, args)
+            method.parameters.each_with_index do |v, k|
               case v[1].to_s
-              when 'attributes'
+              when 'attributes', 'headers'
                 args[k] = {} unless args[k].class == Hash
-              when 'headers'
-                args[k] = {} unless args[k].class == Hash
-                args[k].merge!(Idcf::Cli::Conf::Const::HEADERS)
+                args[k].merge!(Idcf::Cli::Conf::Const::HEADERS) if v[1].to_s == 'headers'
+              end
+            end
+            args
+          end
+
+          def check_job_arg(method, args)
+            method.parameters.each_with_index do |v, k|
+              case v[1].to_s
+              when 'specify_res_id'
+                args[k] = false
+              when 'callback_and_args'
+                args[k] = []
               end
             end
             args
