@@ -37,7 +37,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'builder', '~> 3.1'
   spec.add_dependency 'kosi', '~> 1.0', '>= 1.0.0'
 
-  spec.add_runtime_dependency 'idcf-your'
-  spec.add_runtime_dependency 'idcf-faraday_middleware'
-  spec.add_runtime_dependency 'idcf-ilb'
+  spec.add_dependency 'idcf-your'
+  spec.add_dependency 'idcf-faraday_middleware'
+  spec.add_dependency 'idcf-ilb', '>= 0.0.3'
 end
