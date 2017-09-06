@@ -42,10 +42,19 @@ module Idcf
             module_methods = []
             client.class.included_modules.each do |m|
               next unless m.to_s =~ /\AIdcf::.*::ClientExtensions/
-              module_methods.concat(m.instance_methods)
+              module_methods.concat(module_instance_methods(m))
             end
             module_methods.each do |method|
               result[method] = make_method_info(client, method)
+            end
+          end
+        end
+
+        def module_instance_methods(mc)
+          [].tap do |result|
+            base_name = mc.to_s.underscore.split('/').pop
+            mc.instance_methods.each do |method|
+              result << method unless Regexp.new("\\A#{base_name}s?\\Z") =~ method.to_s
             end
           end
         end
