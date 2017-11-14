@@ -27,10 +27,10 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 1.14'
   spec.add_development_dependency 'rake', '~> 10.0'
 
-  spec.add_dependency 'test-unit', '~> 3.2', '>= 3.2.5'
-  spec.add_dependency 'test-unit-notify', '~> 1.0', '>= 1.0.4'
+  spec.add_development_dependency 'test-unit', '~> 3.2', '>= 3.2.5'
+  spec.add_development_dependency 'test-unit-notify', '~> 1.0', '>= 1.0.4'
 
-  spec.add_dependency 'activerecord', '~> 4.2', '>= 4.2.3'
+  spec.add_dependency 'activemodel', '~> 4.2', '>= 4.2.3'
   spec.add_dependency 'activesupport', '~> 4.2', '>= 4.2.3'
   spec.add_dependency 'inifile', '~> 3.0', '>= 3.0.0'
   spec.add_dependency 'thor', '~> 0.19.4'

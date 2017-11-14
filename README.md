@@ -77,7 +77,7 @@ http://docs.idcf.jp/cloud/billing/
 Running the following test code is possible, but not recommended nor supported.  Run only a code of a target.
 
 ```code
-$ bundle exec ruby test/run_test.rb idcf/cli/controller/test_billing.rb
+$ bundle exec ruby test/run_test.rb idcf/cli/controller/test_your.rb
 ```
 
 In order to avoid collapsed setting in ILB, make sure you understand how things work before running a code.
