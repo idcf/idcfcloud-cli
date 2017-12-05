@@ -28,7 +28,7 @@ LineLength:
   Exclude:
     - 'test/**/*'
 Style/ClassLength:
-  Max: 130
+  Max: 150
   Exclude:
     - 'test/**/*'
 Style/ModuleLength:

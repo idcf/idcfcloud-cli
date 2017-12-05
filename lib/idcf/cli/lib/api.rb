@@ -49,6 +49,7 @@ module Idcf
         # @return Idcf::JsonHyperSchema::Expands::LinkInfoBase
         def find_link(command)
           result = nil
+          return result if @links.blank?
           @links.each do |link|
             if link.title.to_s == command.to_s
               result = link
