@@ -28,7 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'test-unit', '~> 3.2', '>= 3.2.5'
   spec.add_development_dependency 'test-unit-notify', '~> 1.0', '>= 1.0.4'
-  spec.add_development_dependency 'prmd'
 
   spec.add_dependency 'activemodel', '~> 4.2', '>= 4.2.3'
   spec.add_dependency 'activesupport', '~> 4.2', '>= 4.2.3'
@@ -40,7 +39,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'open_uri_redirections', '~> 0.2.1'
   spec.add_dependency 'idcf-json_hyper_schema', '~> 0.1.0'
   spec.add_dependency 'idcf-faraday_middleware', '~> 0.0.2'
-  spec.add_dependency 'idcf-json_hyper_schema', '~> 0.1.0'
   spec.add_dependency 'jsonpath', '~> 0.8.10'
   spec.add_dependency 'facter', '~> 2.5.1'
   spec.add_dependency 'CFPropertyList', '~> 2.3.5'
