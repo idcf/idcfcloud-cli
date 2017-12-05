@@ -38,6 +38,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'kosi', '~> 1.0', '>= 1.0.0'
 
   spec.add_dependency 'open_uri_redirections', '~> 0.2.1'
+  spec.add_dependency 'idcf-json_hyper_schema', '~> 0.1.0'
   spec.add_dependency 'idcf-faraday_middleware', '~> 0.0.2'
   spec.add_dependency 'idcf-json_hyper_schema', '~> 0.1.0'
   spec.add_dependency 'jsonpath', '~> 0.8.10'
