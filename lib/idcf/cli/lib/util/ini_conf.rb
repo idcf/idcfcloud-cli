@@ -6,7 +6,7 @@ module Idcf
       module Util
         # ini conf
         class IniConf
-          attr_reader :load_data, :tmp_data
+          attr_reader :load_data, :tmp_data, :read_only
 
           # initialize
           #
@@ -14,6 +14,7 @@ module Idcf
           def initialize(*path)
             @tmp_data  = {}
             @load_data = IniFile.load(path[0])
+            @read_only = false
           end
 
           def load_error?
@@ -44,21 +45,42 @@ module Idcf
             end
           rescue
             msg = "Error: could not read #{profile}:#{name}"
-            raise Idcf::Cli::CliError, msg
+            raise Idcf::Cli::Error::CliError, msg
           end
 
+          # write
+          #
+          # @param path [String]
           def write(path)
-            unless File.exist?(path)
-              dir_path = File.dirname(path)
-              FileUtils.mkdir_p(dir_path) unless Dir.exist?(dir_path)
-              File.open(path, 'w').close
-              @load_data = IniFile.load(path)
-            end
+            raise Idcf::Cli::Error::CliError, 'read only object' if @read_only
+            @load_data = load_create_file(path) unless File.exist?(path)
 
             @tmp_data.each do |k, v|
               @load_data[k] = v
             end
             @load_data.write(filename: path)
+          end
+
+          # inifile object merge
+          #
+          # @param value [Idcf::Cli::Lib::Util::IniConf]
+          # @return self
+          def merge!(value)
+            raise Idcf::Cli::Error::CliError, 'merge error' unless value.class == self.class
+            v_data = value.load_data
+            return self if v_data.nil?
+            @load_data.merge!(v_data)
+            @read_only = true
+            self
+          end
+
+          protected
+
+          def load_create_file(path)
+            dir_path = File.dirname(path)
+            FileUtils.mkdir_p(dir_path) unless Dir.exist?(dir_path)
+            File.open(path, 'w').close
+            IniFile.load(path)
           end
         end
       end

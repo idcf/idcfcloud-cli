@@ -30,7 +30,7 @@ module Idcf
             none:            {},
             require:         {
               output:     'json',
-              section:    'default',
+              profile:    'default',
               no_ssl:     '',
               no_vssl:    ''
             },

@@ -1,5 +1,3 @@
-require 'active_model'
-require 'active_model/model'
 require_relative '../base'
 module Idcf
   module Cli
@@ -8,9 +6,6 @@ module Idcf
         module Ilb
           # Base Validate
           class Base < Idcf::Cli::Validate::Define::Base
-            include ActiveModel::Model
-            include Idcf::Cli::Validate::Custom
-
             attr_accessor :region
 
             validates :region,

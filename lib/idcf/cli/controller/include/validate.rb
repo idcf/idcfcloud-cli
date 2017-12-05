@@ -45,6 +45,12 @@ module Idcf
             load_validate(paths, o)
           end
 
+          # load validate
+          #
+          # @param paths [Array]
+          # @param o [Hash] Validator
+          # @return class
+          # @raise
           def load_validate(paths, o)
             paths.each do |path|
               begin
@@ -54,7 +60,7 @@ module Idcf
                 next
               end
             end
-            raise Idcf::Cli::CliError, 'Validate load error'
+            cli_error 'Validate load error'
           end
 
           # make validation error

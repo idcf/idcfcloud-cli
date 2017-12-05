@@ -6,58 +6,43 @@ module Idcf
       module Ilb
         # [add/delete] server for protocol
         class BaseServerForProtocol < Idcf::Cli::Service::Base
-          class << self
-            def init
-              param :lb_id
-              param :protocol
-              param :protocol_port
-              param :data, Base::ARG_TYPE_REQ
-            end
-          end
-
-          attr_reader :client
+          attr_reader :api, :options
 
           # do
           #
-          # @param client [Idcf::Ilb::Client]
-          # @param args [Array]
-          # @option args [String] lb id
-          # @option args [Stirng] configure protocol
-          # @option args [int] configure port
-          # @option args [Hash] server info {ipaddress: '0.0.0.0', port: 80}
+          # @param api [Idcf::Ilb::Lib::Api]
           # @param o [Hash] options
-          def do(client, *args, o)
-            @client = client
-            lb_id   = args[0]
-            lb      = search_lb(lbs, lb_id)
-            config  = search_config(lb, args[1], args[2])
+          # @option lb_id [String]
+          # @option protocol [Stirng] http
+          # @option protocol_port [int] 80
+          # @option params [Hash] {ipaddress: '0.0.0.0', port: 80}
+          def do(api, o, lb_id, protocol, protocol_port, params)
+            @api     = api
+            @options = o
+            lb       = search_lb(lbs, lb_id)
+            config   = search_config(lb, protocol, protocol_port)
 
             if config.nil?
               not_param = o[:protocol].nil? ? 'conf_id' : 'protocol'
-              raise Idcf::Cli::CliError, "Target not found (#{not_param})"
+              cli_error "A target isn't found(#{not_param})"
             end
 
-            do_command(lb_id, config, args[3])
-            client.list_servers(lb_id, config['id'])
+            set_last_command(lb_id, config, params)
+            config['servers']
           end
 
           protected
 
-          def do_command(_lb_id, _config, _target)
-            raise Idcf::Cli::CliError, 'override required'
+          def set_last_command(_lb_id, _config, _target)
+            cli_error 'override required'
           end
 
-          # get lb list [Idcf::Ilb::Client]
+          # get lb list
           #
-          # @param client
           # @return Array in Hash
           # @raise
           def lbs
-            lb  = client.get(:loadbalancers)
-            msg = "Status: #{lb.status}"
-            raise Idcf::Cli::CliError, msg if !lb.success? || lb.status != 200
-
-            lb.body
+            @api.do(:list_loadbalancers)
           end
 
           # search lb target
@@ -72,7 +57,7 @@ module Idcf
             end
 
             msg = "Target lb_id not found ( #{id} )"
-            raise Idcf::Cli::CliError, msg if lbs.empty?
+            cli_error msg if lbs.empty?
 
             lbs[0]
           end
@@ -88,10 +73,11 @@ module Idcf
               next unless target_config?(v, protocol, p_port)
               unless v['state'].casecmp('running').zero?
                 msg = 'The operation is impossible because the target is currently being processed'
-                raise Idcf::Cli::CliError, msg
+                cli_error msg
               end
               return v
             end
+            nil
           end
 
           # is target config

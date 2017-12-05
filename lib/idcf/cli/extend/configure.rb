@@ -8,22 +8,28 @@ module Idcf
       module Configure
         protected
 
-        def do_configure(o)
+        # configure settings
+        #
+        # @param o [Hash]
+        # @param init_f [Boolean]
+        def do_configure(o, init_f = false)
           path     = configure_path(o)
           config   = Idcf::Cli::Lib::Util::IniConf.new(path)
-          profiles = []
-          if o[:profile] != 'default' && !check_profile?(config, 'default')
-            profiles << 'default'
-          end
-          profiles << o[:profile]
-          config = configure_input(config, profiles)
-          config.write(path)
+          profiles = make_profiles(config, o)
+          cls      = Idcf::Cli::Conf::Const
+          prefix   = o[:global] ? 'global' : 'local'
+          configure_input(config, profiles, cls::USER_CONF_ITEMS, prefix).write(path)
+
+          global_setting if init_f
         end
 
-        def configure_path(o)
-          cls    = Idcf::Cli::Conf::Const
-          result = o[:global] ? cls::USER_CONF_GLOBAL : cls::USER_CONF_PATH
-          File.expand_path(result)
+        def make_profiles(config, o)
+          [].tap do |result|
+            if o[:profile] != 'default' && !check_profile?(config, 'default')
+              result << 'default'
+            end
+            result << o[:profile]
+          end
         end
 
         def check_profile?(config, name)
@@ -32,38 +38,37 @@ module Idcf
           Idcf::Cli::Conf::Const::USER_CONF_ITEMS.each do |k, _v|
             return false if conf[k.to_s].strip.empty?
           end
-
           true
         end
 
-        def configure_input(config, profiles)
+        def global_setting
+          cls    = Idcf::Cli::Conf::Const
+          path   = cls::USER_CONF_GLOBAL
+          config = Idcf::Cli::Lib::Util::IniConf.new(File.expand_path(path))
+          configure_input(config, ['default'], cls::GLOBAL_CONF_ITEMS).write(path)
+        end
+
+        def configure_path(o)
+          cls    = Idcf::Cli::Conf::Const
+          result = o[:global] ? cls::USER_CONF_GLOBAL : cls::USER_CONF_PATH
+          File.expand_path(result)
+        end
+
+        def configure_input(config, profiles, items, prefix = 'global')
           profiles.each do |profile|
             dt = config[profile] || {}
-            Idcf::Cli::Conf::Const::USER_CONF_ITEMS.each do |k, v|
-              nd         = dt[k.to_s].nil? ? '' : dt[k.to_s]
-              msg        = "#{profile}:#{k}[#{nd.empty? ? 'NONE' : nd}] : "
-              dt[k.to_s] = configure_qa_dialog(msg, nd, v)
+            items.each do |k, v|
+              key_s     = k.to_s
+              nd        = dt[key_s].nil? ? setting_extraction(v, :default).to_s : dt[key_s]
+              dt[key_s] = Idcf::Cli::Lib::Util::Input.qa("#{prefix}[#{profile}]:#{k}", v, nd)
             end
             config[profile] = dt
           end
           config
         end
 
-        def configure_qa_dialog(msg, nd, setting)
-          loop do
-            puts msg
-            res = STDIN.gets.strip
-            next unless !res.empty? || !nd.empty?
-            result = res.empty? ? nd : res
-            return result if confirmation_at_qa_preference?(result, setting)
-            puts "from this [#{setting.join('/')}]"
-          end
-        end
-
-        def confirmation_at_qa_preference?(val, setting)
-          return true if setting.nil?
-          return true if Regexp.new("\\A(#{setting.join('|')})\\Z") =~ val
-          false
+        def setting_extraction(setting, key)
+          setting.class == Hash ? setting[key] : nil
         end
       end
     end

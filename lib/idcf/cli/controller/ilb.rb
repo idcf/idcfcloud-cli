@@ -1,5 +1,4 @@
 require_relative './base'
-require 'idcf/ilb'
 
 module Idcf
   module Cli
@@ -12,49 +11,21 @@ module Idcf
                      type:    :string,
                      aliases: '-r',
                      require: true,
-                     desc:    "region: #{Idcf::Cli::Conf::Const::REGIONS.join('/')}"
+                     desc:    'region: jp-east/jp-east-2/jp-west'
 
         class << self
           def description
             'ILB Service'
           end
-
-          def make_blank_client
-            Idcf::Ilb::Client.new(
-              api_key:    '',
-              secret_key: ''
-            )
-          end
         end
 
         protected
 
-        def resource_classes
-          [
-            Idcf::Ilb::Response,
-            Idcf::Ilb::Resources::Base
-          ]
-        end
+        def do_async(_api, api_result, o, _executed_link)
+          job_id = api_result['job_id']
+          return nil unless do_command('check_job', job_id, o)
 
-        def responce_classes
-          [
-            Idcf::Ilb::Response
-          ]
-        end
-
-        # Create a new client
-        # @param o [Hash] other options
-        # @return [Response] Idcf::Ilb::Client
-        def make_client(o)
-          region = get_region(o)
-          option = {
-            host:       get_code_conf("ilb.v1.host.#{region}", o),
-            ssl:        o.key?(:no_ssl) ? false : true,
-            verify_ssl: o.key?(:no_vssl) ? false : true
-          }
-          option.merge!(base_options(o))
-
-          Idcf::Ilb::Client.new(option)
+          do_command('get_job', job_id, o)
         end
       end
     end

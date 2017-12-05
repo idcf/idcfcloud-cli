@@ -1,10 +1,44 @@
 output: json #json xml csv table
+log_limit: 20
 ilb:
   v1:
-    host:
-      jp-east: ilb.jp-east.idcfcloud.com
-      jp-east-2: ilb.jp-east-2.idcfcloud.com
-      jp-west: ilb.jp-west.idcfcloud.com
+    region:
+      jp-east:
+        schema: https://ilb.jp-east.idcfcloud.com/api/v1/schema
+        host: ilb.jp-east.idcfcloud.com
+      jp-east-2:
+        schema: https://ilb.jp-east-2.idcfcloud.com/api/v1/schema
+        host: ilb.jp-east-2.idcfcloud.com
+      jp-west:
+        schema: https://ilb.jp-west.idcfcloud.com/api/v1/schema
+        host: ilb.jp-west.idcfcloud.com
 your:
   v1:
-    host: your.idcfcloud.com
+    region:
+      default:
+        schema: https://your.idcfcloud.com/api/v1/schema
+        host: your.idcfcloud.com
+cdn:
+  v0:
+    region:
+      default:
+        schema: https://cdn.idcfcloud.com/api/v1/schema
+        host: cdn.idcfcloud.com
+dns:
+  v1:
+    region:
+      default:
+        schema: https://dns.idcfcloud.com/api/v1/schema
+        host: dns.idcfcloud.com
+compute:
+  v1:
+    region:
+      jp-east:
+        schema: https://compute.jp-east.idcfcloud.com/api/v1/schema
+        host: compute.jp-east.idcfcloud.com
+      jp-east-2:
+        schema: https://compute.jp-east-2.idcfcloud.com/api/v1/schema
+        host: compute.jp-east-2.idcfcloud.com
+      jp-west:
+        schema: https://compute.jp-west.idcfcloud.com/api/v1/schema
+        host: compute.jp-west.idcfcloud.com

@@ -12,6 +12,7 @@
 /output/
 /config/config.ini
 /lib/idcf/cli/conf/service/*.yml
+/lib/idcf/cli/conf/service/*.json
 
 .idea/*
 *.iml
@@ -38,7 +39,7 @@ build-iPhoneSimulator/
 ## Documentation cache and generated files:
 /.yardoc/
 /_yardoc/
-/doc/
+/doc/*
 /rdoc/
 
 ## Environment normalization:
@@ -49,8 +50,9 @@ build-iPhoneSimulator/
 # for a library or gem, you might want to ignore these files since the code is
 # intended to run in multiple environments; otherwise, check them in:
 Gemfile.lock
-# .ruby-version
+.ruby-version
 # .ruby-gemset
+.DS_Store
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc

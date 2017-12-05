@@ -8,6 +8,7 @@ Metrics/LineLength:
   Exclude:
     - 'test/**/*'
 Metrics/MethodLength:
+  Max: 14
   Exclude:
     - 'test/**/*'
 Metrics/ClassLength:
@@ -24,3 +25,17 @@ Metrics/AbcSize:
     - 'test/**/*'
 LineLength:
   Max: 100
+  Exclude:
+    - 'test/**/*'
+Style/ClassLength:
+  Max: 130
+  Exclude:
+    - 'test/**/*'
+Style/ModuleLength:
+  Max: 150
+  Exclude:
+    - 'test/**/*'
+ParameterLists:
+  Max: 6
+Style/DoubleNegation:
+  Enabled: false

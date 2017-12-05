@@ -11,7 +11,7 @@ module Idcf
             # @param _err_f [Boolean]
             # @return String
             def format(_data, _err_f)
-              raise Idcf::Cli::CliError, 'override'
+              raise Idcf::Cli::Error::CliError, 'override'
             end
           end
         end
