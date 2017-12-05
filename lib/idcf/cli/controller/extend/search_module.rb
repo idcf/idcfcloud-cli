@@ -22,6 +22,8 @@ module Idcf
           def make_module_classes
             return @m_classes if @m_classes
             result = {}
+            add_classify_rule
+
             make_service_paths.each do |fn, path|
               require path
               result[fn] = path.classify.constantize
@@ -30,6 +32,18 @@ module Idcf
             @m_classes = result
           end
 
+          # add classify rule
+          def add_classify_rule
+            Idcf::Cli::Conf::Const::CLASSIFY_RULE.each do |rule|
+              ActiveSupport::Inflector.inflections do |inflect|
+                inflect.irregular(*rule)
+              end
+            end
+          end
+
+          # make service paths
+          #
+          # @return Hash
           def make_service_paths
             s_name    = make_model_name
             base_path = Idcf::Cli::Conf::Const::BASE_PATH

@@ -6,11 +6,10 @@ module Idcf
     module Validate
       module Define
         module Ilb
-          # test add server
+          # test ilb validator
           class TestBase < Idcf::Cli::Validate::Define::TestBase
             data(
-              reason_none1: {},
-              reason_none2: {
+              reason_none:  {
                 region: 'hoge'
               },
               reason_upper: {
@@ -23,6 +22,7 @@ module Idcf
             end
 
             data(
+              region_none:   {},
               reason_exist1: {
                 region: 'jp-east'
               },

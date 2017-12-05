@@ -1,3 +1,6 @@
+require 'idcf/cli/lib/util/cli_logger'
+require 'idcf/cli/lib/util/name'
+
 # Thor extention
 class Thor
   class << self
@@ -15,21 +18,22 @@ class Thor
     #
     # @return String
     def description
-      raise Idcf::Cli::CliError, 'Required Override'
+      raise Idcf::Cli::Error::CliError, 'Required Override'
     end
 
     # register sub command
     #
     # @param dir [String] underlayer path
     # @param parent_dir_path [Stirng]
+    # @param arg [Hash] options
     # @return nil
-    def sub_command_regist(under_path, parent_dir_path = '')
-      b_path = module_path
+    def sub_command_regist(under_path, parent_dir_path = '', arg = {})
+      b_path = Idcf::Cli::Lib::Util::Name.namespace(name).underscore
       Dir.glob(parent_dir_path + "/#{under_path}/*.rb").each do |f|
         file_name = File.basename(f, '.*')
         next if file_name == 'base'
 
-        command_regist file_name, "#{b_path}/#{under_path}/#{file_name}"
+        command_regist file_name, "#{b_path}/#{under_path}/#{file_name}", arg
       end
     end
 
@@ -37,11 +41,12 @@ class Thor
     #
     # @param command [String]
     # @param require_path [String]
-    def command_regist(command, require_path)
+    # @param o [Hash] options
+    def command_regist(command, require_path, arg)
       require require_path
 
       class_const = require_path.classify.constantize
-      class_const.init
+      class_const.init(arg)
       register class_const,
                command,
                "#{command_help_string(command)} [OPTION]",
@@ -78,11 +83,19 @@ class Thor
       end
     end
 
+    def error_exit(e)
+      STDERR.puts e.message
+      Idcf::Cli::Lib::Util::CliLogger.error(e.message)
+      Idcf::Cli::Lib::Util::CliLogger.cleaning(options)
+      STDERR.puts "log path: #{Idcf::Cli::Lib::Util::CliLogger.current_path}"
+      exit 1
+    end
+
     protected
 
     def subcommand_class_structure(result)
       subcommand_classes.each do |k, v|
-        commands = v.subcommand_structure
+        commands       = v.subcommand_structure
         result[k.to_s] = nil
         result[k.to_s] = commands unless commands.empty?
       end

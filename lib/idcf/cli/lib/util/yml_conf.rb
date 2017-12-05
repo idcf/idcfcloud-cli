@@ -5,7 +5,17 @@ module Idcf
       module Util
         # yml conf
         class YmlConf
-          @load_data = nil
+          attr_reader :load_data
+
+          class << self
+            attr_reader :data
+            def load(path)
+              @data ||= {}
+              return @data[path] unless @data[path].nil?
+              @data[path] = name.constantize.new(path)
+              @data[path]
+            end
+          end
 
           # initialize
           #
@@ -17,6 +27,7 @@ module Idcf
           # get config value
           #
           # @param path [String]
+          # @param section [String]
           # @return String or Hash
           # @raise
           def find(path)
@@ -28,7 +39,7 @@ module Idcf
 
             result
           rescue
-            raise Idcf::Cli::CliError, "Error: could not read '#{path}'"
+            raise Idcf::Cli::Error::CliError, "Error: could not read '#{path}'"
           end
         end
       end

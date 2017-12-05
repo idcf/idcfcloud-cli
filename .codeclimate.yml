@@ -7,6 +7,7 @@ engines:
         - ruby
     exclude_paths:
       - 'test/**/*'
+      - 'lib/idcf/cli/validate/define/**/*'
   fixme:
     enabled: true
   rubocop:

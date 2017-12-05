@@ -14,7 +14,9 @@ module Idcf
                         :api_key,
                         :secret_key,
                         :no_ssl,
-                        :no_vssl
+                        :no_vssl,
+                        :json_path,
+                        :fields
 
           validates :output,
                     allow_blank: true,

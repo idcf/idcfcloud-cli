@@ -35,20 +35,56 @@ $ idcfcloud <serviceName> <command> [attributes] [option]
 
 If you want to set more than one attribute, use the json form.
 
-```ex)
+``` ex)
 '{"ipaddress": "0.0.0.0", "port": 80}'
 ```
 
+Or you can also define the GET or POST parameter in the JSON file and hand it using xargs.
+
+``` ex) xargs
+cat [attributes file path] | echo -e "'"$(cat)"'" | xargs -L1 idcfcloud <serviceName> <command> [option]
+```
+
+### Service Options
+
+| option | alias | default | note |
+|:---|:---|:---|:---|
+| output | o | json | Output formats (table/json/xml/csv) |
+| profile |  | default | Switching profiles |
+| api-key |  | [Configuration file description] | API Key |
+| secret-key |  | [Configuration file description] | Secret Key |
+| no-ssl |  |  | Not using SSL |
+| no-vssl |  |  | Not using Verify SSL |
+| json-path |  |  | Narrowing the data part of a return value using json-path<br/>https://github.com/joshbuddy/jsonpath |
+| fields |  |  | Limiting the return value to be displayed (applied only to the latest hash)<br/>Punctuation: comma (",") |
+
+
+#### How to Narrow Down (Examples)
+```
+idcfcloud your list_billing_history --json-path '$.data[?(@.month=="2017-10")]' --fields month,billing_amount
+```
+
 ## ServiceName
+[Compute](#compute)
+
 [ILB](#ilb)
+
+[CDN](#cdn)
+
+[DNS](#dns)
 
 [Your](#your)
 
-#### <a name="ilb"></a>ILB
+### Compute(Bata)<a name="compute"></a>
+\* If you encounter any problem, please contact us or file a pull request.
+
+http://docs.idcf.jp/cloud/api/
+
+### ILB<a name="ilb"></a>
 
 https://github.com/idcf/idcf-ilb-ruby
 
-##### ILB Extend Commands
+#### ILB Extend Commands
 
 add server
 
@@ -67,10 +103,29 @@ delete server
 $ idcfcloud ilb delete_server_for_protocol <lb_id> <protocol> <protocol_port> <data> [option]
 ```
 
-#### <a name="your"></a>Your
+check_job
+
+``` code
+$ idcfcloud ilb check_job <job_id>
+```
+
+sslalgorithms_ids
+
+``` code
+$ idcfcloud ilb sslalgorithms_ids
+```
+
+### CDN<a name="cdn"></a>
+
+https://www.idcf.jp/help/cache/docs/pdf/cache_api.pdf?cl=rd_0046
+
+### DNS<a name="dns"></a>
+
+http://docs.idcf.jp/cloud/dns/#s_fid=4FEB16B56007BA5C-0BFB42ABA668ADA8
+
+### Your<a name="your"></a>
 
 http://docs.idcf.jp/cloud/billing/
-
 
 ## Development
 

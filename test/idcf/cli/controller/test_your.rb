@@ -5,6 +5,7 @@ require 'date'
 module Idcf
   module Cli
     module Controller
+      # test your
       class TestYour < Test::Unit::TestCase
         @target = nil
 
@@ -20,22 +21,13 @@ module Idcf
           Idcf::Cli::Controller::Your
         end
 
-        data(init: '')
+        data(init: {})
         # not exists setting
-        def test_init(_data)
+        def test_init(data)
           assert_throw(:done) do
-            target_class.init
+            target_class.init(data)
             throw(:done)
           end
-        end
-
-        data(
-          blank_client: {}
-        )
-
-        def test_make_blank_client(_data)
-          client = target_class.make_blank_client
-          refute(client.nil?)
         end
 
         data(
@@ -43,7 +35,7 @@ module Idcf
         )
 
         def test_make_client_success(data)
-          client = @target.send(:make_client, data)
+          client = @target.send(:make_client, data, target_class.get_region(data))
           refute(client.nil?)
         end
 

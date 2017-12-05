@@ -5,14 +5,7 @@ module Idcf
         # override methods
         module Override
           def description
-            raise Idcf::Cli::CliError, 'Require override'
-          end
-
-          # blank client
-          #
-          # @return Mixed
-          def make_blank_client
-            # blank client
+            raise Idcf::Cli::Error::CliError, 'Require override'
           end
         end
       end

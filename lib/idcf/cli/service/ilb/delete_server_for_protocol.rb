@@ -6,13 +6,18 @@ module Idcf
       module Ilb
         # delete server
         class DeleteServerForProtocol < BaseServerForProtocol
-          init
+          class << self
+            def description
+              "Delete a [loadbalancer's config server]"
+            end
+          end
 
           protected
 
-          def do_command(lb_id, config, target)
-            server_id = search_server_id(config['servers'], target)
-            client.delete_server(lb_id, config['id'], server_id)
+          def set_last_command(lb_id, config, target)
+            server_id          = search_server_id(config['servers'], target)
+            @last_command      = :delete_server
+            @last_command_args = [lb_id, config['id'], server_id]
           end
 
           def search_server_id(servers, target)

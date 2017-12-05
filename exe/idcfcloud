@@ -1,4 +1,12 @@
 require 'idcf/cli/index'
 
-Idcf::Cli::Index.init
+if ARGV[0] && %w(morio).include?(ARGV[0].downcase)
+  cls = "idcf/cli/command/#{ARGV[0].downcase}"
+  require cls
+  cls.classify.constantize.new.exec
+
+  exit
+end
+
+Idcf::Cli::Index.init(ARGV)
 Idcf::Cli::Index.start(ARGV)

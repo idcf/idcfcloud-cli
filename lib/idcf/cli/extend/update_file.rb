@@ -1,22 +1,124 @@
 require 'fileutils'
 require 'idcf/cli/conf/const'
+require 'open_uri_redirections'
 
 module Idcf
   module Cli
     module Extend
       # update file
       module UpdateFile
+        BROKEN_UPDATE_FILE = 'The update file is damaged. '\
+                             'Please consult with the administrator.'.freeze
+
         protected
 
-        def writable_setting_file(services)
-          b_dir = File.expand_path(Idcf::Cli::Conf::Const::CMD_FILE_DIR)
-          FileUtils.mkdir_p(b_dir) unless Dir.exist?(b_dir)
-          writable?(File.dirname(b_dir))
-
-          services.each do |v|
-            path = "#{b_dir}/#{v}.#{Idcf::Cli::Conf::Const::CMD_FILE_EXT}"
-            writable?(File.dirname(path)) if File.exist?(path)
+        def schema_data_acquisition
+          {}.tap do |result|
+            self.class.subcommand_classes.each do |s_name, cls|
+              result[s_name] = service_schema_data_acquisition(cls)
+            end
           end
+        end
+
+        def service_schema_data_acquisition(cls)
+          {}.tap do |result|
+            schema_file_paths(cls).each do |version, infos|
+              result[version] = {}
+              infos.each do |region, path|
+                j = download_schema_file(path)
+                update_data_check(j)
+                result[version][region] = j
+              end
+            end
+          end
+        end
+
+        def download_schema_file(path)
+          d = file_load(path)
+          JSON.parse(d)
+        rescue
+          Idcf::Cli::Lib::Util::CliLogger.info("json format error:#{path}")
+          raise Idcf::Cli::Error::CliError, BROKEN_UPDATE_FILE
+        end
+
+        def update_data_check(j)
+          check_json_schema(j)
+          check_api_version_format(j['$version'])
+        end
+
+        def check_json_schema(j)
+          analyst = Idcf::JsonHyperSchema::Analyst.new
+          analyst.schema_links(j)
+        rescue => e
+          Idcf::Cli::Lib::Util::CliLogger.info('json-schema format error')
+          log_msg = "#{BROKEN_UPDATE_FILE}:#{e.message}"
+          Idcf::Cli::Lib::Util::CliLogger.error(log_msg)
+          raise Idcf::Cli::Error::CliError, BROKEN_UPDATE_FILE
+        end
+
+        def file_load(path)
+          open(path).read
+        rescue
+          nil
+        end
+
+        def schema_file_paths(cls)
+          {}.tap do |result|
+            Idcf::Cli::Lib::Configure.get_code_conf(cls.service_name).each do |k, v|
+              regions = {}
+              v['region'].each do |region, info|
+                regions[region] = create_schema_url(info['schema'])
+              end
+
+              result[k] = regions
+            end
+          end
+        end
+
+        def create_schema_url(path)
+          href_regexp = Idcf::Cli::Conf::Const::FULL_HREF_REGEXP
+          return path if path =~ href_regexp
+          path = File.expand_path("../#{path}", Idcf::Cli::Conf::Const::BASE_PATH)
+          return path if File.exist?(path)
+          File.expand_path(path)
+        end
+
+        # check api version format
+        #
+        # @param v_str [String] version string
+        # @return Boolean
+        # @raise
+        def check_api_version_format(v_str)
+          msg = 'Please inform an administrator.'
+          raise Idcf::Cli::Error::CliError, msg unless v_str =~ /\A\d+\.\d+\.\d+\Z/
+          true
+        end
+
+        # make schema file path
+        #
+        # @param service [String]
+        # @param version [String]
+        # @param region [String]
+        # @return String
+        # @raise At a writing in right error
+        def make_schema_file_path(service, version, region)
+          b_dir    = schema_file_output_base_path
+          ext      = Idcf::Cli::Conf::Const::CMD_FILE_EXT
+          path     = "#{b_dir}/#{service}_#{version}_#{region}.#{ext}"
+          cli_file = Idcf::Cli::Lib::Util::CliFile
+          if File.exist?(path)
+            cli_file.writable(path)
+          else
+            cli_file.writable(File.dirname(path))
+          end
+          path
+        end
+
+        def schema_file_output_base_path
+          result = File.expand_path(Idcf::Cli::Conf::Const::CMD_FILE_DIR)
+          FileUtils.mkdir_p(result) unless Dir.exist?(result)
+          Idcf::Cli::Lib::Util::CliFile.writable(File.dirname(result))
+          result
         end
 
         def output_yaml(s_name, data)
@@ -28,24 +130,17 @@ module Idcf
 
         def output_complement_file(str, outpath)
           dir_path = File.dirname(outpath)
-          unless Dir.exist?(dir_path)
-            writable?(File.dirname(dir_path))
-            Dir.mkdir(dir_path)
-          end
-          writable?(dir_path)
+          cli_file = Idcf::Cli::Lib::Util::CliFile
+          cli_file.mkdir(dir_path)
+          cli_file.writable(dir_path)
 
           write_file(outpath, str)
         end
 
         def write_file(path, str)
-          File.open(path, 'w') do |f|
+          File.open(path, 'w', 0o755) do |f|
             f.puts(str)
           end
-        end
-
-        def writable?(path)
-          msg = "Permission error (#{path})"
-          raise Idcf::Cli::CliError, msg unless File.writable?(path)
         end
       end
     end

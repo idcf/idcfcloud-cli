@@ -6,12 +6,17 @@ module Idcf
       module Ilb
         # add server
         class AddServerForProtocol < BaseServerForProtocol
-          init
+          class << self
+            def description
+              "Add a loadbalancer config's server."
+            end
+          end
 
           protected
 
-          def do_command(lb_id, config, target)
-            client.add_server(lb_id, config['id'], target)
+          def set_last_command(lb_id, config, target)
+            @last_command      = :add_server
+            @last_command_args = [lb_id, config['id'], target]
           end
         end
       end
