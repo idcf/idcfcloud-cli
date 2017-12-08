@@ -12,18 +12,18 @@ module Idcf
       # morio command
       class Morio
         MORIO_TXT = <<-'EOS'.freeze
-                        -+sso+-     
-               ....    -ssssssso`   
-          `-/ossssss+/. `ssssssso`  
-        `/ssssssssssssso-  /sssss+  
-     .-:ossssssssssssssss` sssssss` 
-  `/sssssssssssssssssssss.+sssssss. 
- `ossssssssssssssssssssss`osssssss` 
- /sssssssssssssssssssssss-ossssss+  
- :sssssssssssssssssssssssssssssso`  
-  /ssssssssssssssssssssssssssss+`   
-   ./osssssssssssssssssssssss+.     
-      `-:+oosssssssssssso+:.        
+                        -+sso+-
+               ....    -ssssssso`
+          `-/ossssss+/. `ssssssso`
+        `/ssssssssssssso-  /sssss+
+     .-:ossssssssssssssss` sssssss`
+  `/sssssssssssssssssssss.+sssssss.
+ `ossssssssssssssssssssss`osssssss`
+ /sssssssssssssssssssssss-ossssss+
+ :sssssssssssssssssssssssssssssso`
+  /ssssssssssssssssssssssssssss+`
+   ./osssssssssssssssssssssss+.
+      `-:+oosssssssssssso+:.
              ``````````
         EOS
         ATTRIBUTES_OFF = "\e[0m".freeze

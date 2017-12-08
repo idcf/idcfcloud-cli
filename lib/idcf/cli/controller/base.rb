@@ -60,13 +60,20 @@ module Idcf
           def register_schema_method(o)
             path = make_schema_path(o)
 
-            return nil unless File.exist?(path)
+            unless File.exist?(path)
+              raise Idcf::Cli::Error::CliError, 'Run the command `update`' if self_call?
+              return nil
+            end
 
             analyst = Idcf::JsonHyperSchema::Analyst.new
             @links  = analyst.load(path).links
             @links.each do |link|
               register_schema_method_by_link!(link)
             end
+          end
+
+          def self_call?
+            ARGV.include?(name.underscore.split('/').pop)
           end
 
           # service name

@@ -29,6 +29,8 @@ module Idcf
         def init(arg)
           map COMMAND_MAPS
           sub_command_regist('controller', File.dirname(__FILE__), arg)
+        rescue Idcf::Cli::Error::CliError => e
+          error_exit(e)
         rescue => e
           error_exit(Idcf::Cli::Error::CliError.new(e.message))
         end

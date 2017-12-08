@@ -24,7 +24,7 @@ module Idcf
           def get_user_conf(name, profile = 'default')
             return config.find(name, profile) if config
             @config = load_user_conf
-            msg    = 'Run the command `configure`'
+            msg     = 'Run the command `configure`'
             raise Idcf::Cli::Error::CliError, msg unless config
 
             config.find(name, profile)
@@ -42,7 +42,7 @@ module Idcf
             return get_user_conf(path, profile)
           rescue
             return code_config.find(path) if code_config
-            f_path      = Idcf::Cli::Conf::Const::CODE_CONF_PATH
+            f_path       = Idcf::Cli::Conf::Const::CODE_CONF_PATH
             @code_config = Idcf::Cli::Lib::Util::YmlConf.new(f_path)
             code_config.find(path)
           end
