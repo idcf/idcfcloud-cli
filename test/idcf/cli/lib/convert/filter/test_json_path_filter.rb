@@ -34,12 +34,12 @@ module Idcf
                 condition: '',
                 result:    12_345
               },
-              true:   {
+              bool_true:   {
                 data:      true,
                 condition: '',
                 result:    true
               },
-              false:
+              bool_false:
                       {
                         data:      false,
                         condition: '',
@@ -93,7 +93,7 @@ module Idcf
                                      }
                                    ],
                         condition: '$.[*].id',
-                        result:    %w(id_1 id_2)
+                        result:    %w[id_1 id_2]
                       },
               id_select:
                       {
@@ -137,12 +137,12 @@ module Idcf
                 condition: '$',
                 result:    12_345
               },
-              true:   {
+              bool_true:   {
                 data:      true,
                 condition: '$',
                 result:    true
               },
-              false:  {
+              bool_false:  {
                 data:      false,
                 condition: '$',
                 result:    false
@@ -153,7 +153,7 @@ module Idcf
               assert_throw(:done) do
                 begin
                   @target.filter(data[:data], data[:condition])
-                rescue
+                rescue StandardError => _e
                   throw(:done)
                 end
               end

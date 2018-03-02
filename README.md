@@ -55,8 +55,9 @@ cat [attributes file path] | echo -e "'"$(cat)"'" | xargs -L1 idcfcloud <service
 | secret-key |  | [Configuration file description] | Secret Key |
 | no-ssl |  |  | Not using SSL |
 | no-vssl |  |  | Not using Verify SSL |
-| json-path |  |  | Narrowing the data part of a return value using json-path<br/>https://github.com/joshbuddy/jsonpath |
-| fields |  |  | Limiting the return value to be displayed (applied only to the latest hash)<br/>Punctuation: comma (",") |
+| json-path | j |  | Narrowing the data part of a return value using json-path<br/>https://github.com/joshbuddy/jsonpath |
+| fields | f |  | Limiting the return value to be displayed (applied only to the latest hash)<br/>Punctuation: comma (",") |
+| version |  | [latest] | The API version to be used |
 
 
 #### How to Narrow Down (Examples)
@@ -75,8 +76,18 @@ idcfcloud your list_billing_history --json-path '$.data[?(@.month=="2017-10")]' 
 
 [Your](#your)
 
-### Compute(Bata)<a name="compute"></a>
-\* If you encounter any problem, please contact us or file a pull request.
+### Common Features
+
+versions
+
+Get a supported API version. 
+
+```code
+$ idcfcloud your versions
+```
+
+
+### Compute<a name="compute"></a>
 
 http://docs.idcf.jp/cloud/api/
 

@@ -12,15 +12,15 @@ module Idcf
           #
           # @param api [Idcf::Ilb::Lib::Api]
           # @param o [Hash] options
-          # @option lb_id [String]
-          # @option protocol [Stirng] http
-          # @option protocol_port [int] 80
-          # @option params [Hash] {ipaddress: '0.0.0.0', port: 80}
+          # @param lb_id [String]
+          # @param protocol [Stirng] http
+          # @param protocol_port [int] 80
+          # @param params [Hash] {ipaddress: '0.0.0.0', port: 80}
           def do(api, o, lb_id, protocol, protocol_port, params)
             @api     = api
             @options = o
             lb       = search_lb(lbs, lb_id)
-            config   = search_config(lb, protocol, protocol_port)
+            config   = search_config(lb['configs'], protocol, protocol_port)
 
             if config.nil?
               not_param = o[:protocol].nil? ? 'conf_id' : 'protocol'
@@ -64,20 +64,19 @@ module Idcf
 
           # config search
           #
-          # @param lb_info [Hash]
-          # @param o [Hash]
+          # @param configs [Hash]
+          # @param protocol [String]
+          # @param p_port [String]
           # @return Hash
           # @raise
-          def search_config(lb_info, protocol, p_port)
-            lb_info['configs'].each do |v|
+          def search_config(configs, protocol, p_port)
+            result = nil
+            configs.each do |v|
               next unless target_config?(v, protocol, p_port)
-              unless v['state'].casecmp('running').zero?
-                msg = 'The operation is impossible because the target is currently being processed'
-                cli_error msg
-              end
-              return v
+              result = v
+              break
             end
-            nil
+            result
           end
 
           # is target config
@@ -86,9 +85,14 @@ module Idcf
           # @param protocol [String]
           # @param p_port [String]
           # @return boolean
-          def target_config?(config, purotocol, p_port)
-            config['frontend_protocol'] == purotocol &&
-              config['port'].to_s == p_port.to_s
+          # @raise
+          def target_config?(config, protocol, p_port)
+            unless config['frontend_protocol'] == protocol && config['port'].to_s == p_port.to_s
+              return false
+            end
+            return true if config['state'].casecmp('running').zero?
+            msg = 'The operation is impossible because the target is currently being processed'
+            cli_error msg
           end
         end
       end

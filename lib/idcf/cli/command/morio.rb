@@ -11,7 +11,7 @@ module Idcf
     module Command
       # morio command
       class Morio
-        MORIO_TXT = <<-'EOS'.freeze
+        MORIO_TXT = <<-TEXT.freeze
                         -+sso+-
                ....    -ssssssso`
           `-/ossssss+/. `ssssssso`
@@ -25,7 +25,7 @@ module Idcf
    ./osssssssssssssssssssssss+.
       `-:+oosssssssssssso+:.
              ``````````
-        EOS
+        TEXT
         ATTRIBUTES_OFF = "\e[0m".freeze
         MORIO_COLOR    = "\e[38;5;45m".freeze
         TITLE_COLOR    = "\e[38;5;45m".freeze
@@ -81,7 +81,7 @@ module Idcf
               result << [k.to_s, data.body] if data.success?
             end
           end
-        rescue
+        rescue StandardError => _e
           []
         end
 
@@ -108,7 +108,7 @@ module Idcf
           if content && content.class == Array && content.size == 2
             title   = content[1].present? ? "#{content[0]} : " : content[0]
             txt     = content[1].present? ? content[1] : ''
-            add_str = format(" #{TITLE_COLOR}%s#{TEXT_COLOR}%s", title, txt)
+            add_str = format(" #{TITLE_COLOR}%<title>s#{TEXT_COLOR}%<txt>s", title: title, txt: txt)
           end
           "#{base_str}#{add_str}"
         end

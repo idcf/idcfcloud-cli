@@ -27,6 +27,18 @@ module Idcf
             v      = service_version(o)
             "#{dir}/#{fn}_#{v}_#{region}.#{ext}"
           end
+
+          # service version
+          #
+          # @param o [Hash]
+          # @return String
+          def service_version(o)
+            versions = service_versions(get_region(o))
+            result   = o[:version].nil? ? versions.last : o[:version]
+            msg      = "not found input version[#{o[:version]}]"
+            raise Idcf::Cli::Error::CliError, msg unless versions.include?(result)
+            result
+          end
         end
       end
     end

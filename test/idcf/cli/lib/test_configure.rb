@@ -35,7 +35,7 @@ module Idcf
             begin
               @target.__send__(:get_user_conf, data)
               throw(:error)
-            rescue
+            rescue StandardError => _e
               throw(:done)
             end
           end
@@ -61,7 +61,7 @@ module Idcf
             begin
               @target.__send__(:get_code_conf, data)
               throw(:error)
-            rescue
+            rescue StandardError => _e
               throw(:done)
             end
           end

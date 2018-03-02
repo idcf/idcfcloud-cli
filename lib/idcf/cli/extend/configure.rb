@@ -25,9 +25,7 @@ module Idcf
 
         def make_profiles(config, o)
           [].tap do |result|
-            if o[:profile] != 'default' && !check_profile?(config, 'default')
-              result << 'default'
-            end
+            result << 'default' if o[:profile] != 'default' && !check_profile?(config, 'default')
             result << o[:profile]
           end
         end
@@ -35,7 +33,7 @@ module Idcf
         def check_profile?(config, name)
           conf = config[name]
           return false if conf.nil?
-          Idcf::Cli::Conf::Const::USER_CONF_ITEMS.each do |k, _v|
+          Idcf::Cli::Conf::Const::USER_CONF_ITEMS.each_key do |k|
             return false if conf[k.to_s].strip.empty?
           end
           true

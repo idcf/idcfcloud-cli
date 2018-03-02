@@ -37,7 +37,7 @@ module Idcf
         def output_default_schema(service, version, regions)
           return nil if regions.keys.include?('default')
           latist = latest_schema(regions.values)
-          path   = make_schema_file_path(service, version, 'default')
+          path = make_schema_file_path(service, version, 'default')
           output_complement_file(JSON.pretty_generate(latist), path)
         end
 
@@ -47,11 +47,11 @@ module Idcf
         # @return Hash or nil
         def latest_schema(schemas)
           result = nil
-          v_str  = '$version'
+          v_str = '$version'
           schemas.each do |data|
             result ||= data
-            v1     = Gem::Version.create(data[v_str])
-            v2     = Gem::Version.create(result[v_str])
+            v1 = Gem::Version.create(data[v_str])
+            v2 = Gem::Version.create(result[v_str])
             next unless v1 > v2
             result = data
           end
@@ -62,9 +62,9 @@ module Idcf
           view = Idcf::Cli::Lib::Util::Template.new
           view.set('variables', make_script_variables)
           paths = {}
-          Idcf::Cli::Conf::Const::COMP_PATHS.each do |k, _v|
-            str      = view.fetch("#{k}/#{COMP_N}.erb")
-            path     = "#{Idcf::Cli::Conf::Const::OUT_DIR}/#{COMP_N}.#{k}"
+          Idcf::Cli::Conf::Const::COMP_PATHS.each_key do |k|
+            str = view.fetch("#{k}/#{COMP_N}.erb")
+            path = "#{Idcf::Cli::Conf::Const::OUT_DIR}/#{COMP_N}.#{k}"
             paths[k] = File.expand_path(path)
             output_complement_file(str, paths[k])
           end
@@ -82,7 +82,7 @@ module Idcf
         end
 
         def startup_script_qa(paths, script)
-          list = %w(y N)
+          list = %w[y N]
           puts "Do you want to edit the startup script?(#{list.join('/')})"
           puts "[#{startup_script_path(script)}]"
           ans = Idcf::Cli::Lib::Util::Input.qa_answer_input(list)
@@ -106,7 +106,7 @@ module Idcf
         # @param paths [Hash]
         def output_startup_script(script, paths)
           s_script_path = startup_script_path(script)
-          write_str     = "source #{paths[script]}"
+          write_str = "source #{paths[script]}"
 
           if write_path?(s_script_path, write_str)
             File.open(s_script_path, 'a') do |f|
@@ -169,20 +169,20 @@ module Idcf
         # @param names [Array]
         # @return Hash
         def make_flat_variables(list, names = [])
-          {}.tap do |result|
-            name         = names.empty? ? 'top' : names.join('_')
-            result[name] = list.keys
-            list.each do |k, v|
-              next unless v.class == Hash
-              names << k
-              result.merge!(make_flat_variables(v, names))
-              names.pop
-            end
+          result = {}
+          name = names.empty? ? 'top' : names.join('_')
+          result[name] = list.keys
+          list.each do |k, v|
+            next unless v.class == Hash
+            names << k
+            result.merge!(make_flat_variables(v, names))
+            names.pop
           end
+          result
         end
 
         def extract_commands(thor_class, commands)
-          thor_class.commands.keys.each do |k_c|
+          thor_class.commands.each_key do |k_c|
             commands << k_c if commands.index(k_c).nil?
           end
 
@@ -192,7 +192,7 @@ module Idcf
         def extract_command_infos(t_class, s_name, infos)
           commands = []
           return extract_commands(t_class, commands) if infos[s_name].nil?
-          infos[s_name].keys.each do |name|
+          infos[s_name].each_key do |name|
             commands << name.to_s
           end
           extract_commands(t_class, commands)

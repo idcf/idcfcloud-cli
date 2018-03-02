@@ -12,7 +12,7 @@ module Idcf
             def mkdir(path)
               target = file?(path) ? File.dirname(path) : path
               FileUtils.mkdir_p(target, mode: 0o755)
-            rescue => e
+            rescue StandardError => e
               raise Idcf::Cli::Error::CliError, e.message
             end
 

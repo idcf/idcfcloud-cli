@@ -1,4 +1,5 @@
 require 'idcf/cli/lib/util/cli_logger'
+require 'idcf/cli/lib/document'
 module Idcf
   module Cli
     module Lib
@@ -113,16 +114,16 @@ module Idcf
           min    = link.url_param_names.size + offset
           max    = between_max(min, link)
 
-          msg = format('Argument: %s', self.class.command_param_str(link))
+          msg = format('Argument: %<arg>s', arg: self.class.command_param_str(link))
+          msg = "#{msg}\n#{Idcf::Cli::Lib::Document.make_document_desc(link)}"
           cli_error msg unless args.size.between?(min, max)
         end
 
         def between_max(min, link)
           offset     = 0
           required_f = self.class.param_required?(link)
-          if !required_f && (link.properties.present? || link.query_param_names.present?)
-            offset = 1
-          end
+          offset = 1 if !required_f && (link.properties.present? || link.query_param_names.present?)
+
           min + offset
         end
 

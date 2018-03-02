@@ -8,9 +8,9 @@ module Idcf
         ARG_TYPE_OPT  = :opt
         ARG_TYPE_REST = :rest
         HELP_FORMAT   = {
-          ARG_TYPE_REQ  => '<%s>',
-          ARG_TYPE_OPT  => '[%s]',
-          ARG_TYPE_REST => '[%s ...]'
+          ARG_TYPE_REQ  => '<%<name>s>',
+          ARG_TYPE_OPT  => '[%<name>s]',
+          ARG_TYPE_REST => '[%<name>s ...]'
         }.freeze
         attr_reader :last_command, :last_command_args
         include Idcf::Cli::Lib::Include::RecurringCalling
@@ -51,7 +51,7 @@ module Idcf
             valid_params.each do |param|
               f = HELP_FORMAT[param[0]]
               next if f.nil?
-              cp << format(f, param[1])
+              cp << format(f, name: param[1])
             end
             cp.join(' ')
           end
@@ -72,7 +72,7 @@ module Idcf
           # @return Boolean
           def target_param?(name)
             val            = name.to_s
-            exclusion_list = %w(api o)
+            exclusion_list = %w[api o]
             return false if exclusion_list.include?(val)
             return false if val[0] == '_'
             true
@@ -107,7 +107,7 @@ module Idcf
           opt_cnt = method_option_cnt(param)
 
           min = p_cnt - opt_cnt
-          msg = format('Argument: %s', self.class.make_param_s)
+          msg = format('Argument: %<arg>s', arg: self.class.make_param_s)
           cli_error msg unless arg_size.between?(min, p_cnt)
           true
         end

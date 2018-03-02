@@ -7,8 +7,17 @@ module Idcf
     module Extend
       # update file
       module UpdateFile
-        BROKEN_UPDATE_FILE = 'The update file is damaged. '\
-                             'Please consult with the administrator.'.freeze
+        BROKEN_UPDATE_FILE = <<-TEXT.strip_heredoc.freeze
+          The update file is damaged.
+          Please consult with the administrator.
+        TEXT
+        BROKEN_JSON_SCHEMA = <<-TEXT.strip_heredoc.freeze
+          Failed to verify the update file.
+          Use the following commands to try updating the gem.
+
+          # gem update idcfcloud
+          # idcfcloud init
+        TEXT
 
         protected
 
@@ -36,7 +45,7 @@ module Idcf
         def download_schema_file(path)
           d = file_load(path)
           JSON.parse(d)
-        rescue
+        rescue StandardError => _e
           Idcf::Cli::Lib::Util::CliLogger.info("json format error:#{path}")
           raise Idcf::Cli::Error::CliError, BROKEN_UPDATE_FILE
         end
@@ -49,16 +58,16 @@ module Idcf
         def check_json_schema(j)
           analyst = Idcf::JsonHyperSchema::Analyst.new
           analyst.schema_links(j)
-        rescue => e
+        rescue StandardError => e
           Idcf::Cli::Lib::Util::CliLogger.info('json-schema format error')
-          log_msg = "#{BROKEN_UPDATE_FILE}:#{e.message}"
+          log_msg = "#{BROKEN_JSON_SCHEMA}:#{e.message}"
           Idcf::Cli::Lib::Util::CliLogger.error(log_msg)
-          raise Idcf::Cli::Error::CliError, BROKEN_UPDATE_FILE
+          raise Idcf::Cli::Error::CliError, BROKEN_JSON_SCHEMA
         end
 
         def file_load(path)
           open(path).read
-        rescue
+        rescue StandardError => _e
           nil
         end
 
@@ -66,8 +75,10 @@ module Idcf
           {}.tap do |result|
             Idcf::Cli::Lib::Configure.get_code_conf(cls.service_name).each do |k, v|
               regions = {}
-              v['region'].each do |region, info|
-                regions[region] = create_schema_url(info['schema'])
+              v['region'].each_key do |region|
+                target          = "#{cls.service_name}.#{k}.region.#{region}.schema"
+                url             = Idcf::Cli::Lib::Configure.get_code_conf(target)
+                regions[region] = create_schema_url(url)
               end
 
               result[k] = regions

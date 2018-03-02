@@ -8,7 +8,7 @@ module Idcf
         module Formatter
           # json formatter
           class JsonFormat < Base
-            def format(data, _err_f)
+            def format(data)
               JSON.pretty_generate(data)
             end
           end

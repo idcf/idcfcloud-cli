@@ -29,7 +29,7 @@ module Idcf
           def valid?(val)
             Date.parse("#{val}-01")
             true
-          rescue
+          rescue StandardError => _e
             false
           end
         end

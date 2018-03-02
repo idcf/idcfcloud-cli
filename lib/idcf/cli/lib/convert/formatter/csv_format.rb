@@ -8,9 +8,9 @@ module Idcf
         module Formatter
           # csv formatter
           class CsvFormat < Base
-            def format(data, err_f)
-              result = CSV.generate do |csv|
-                scrape_line(data, err_f).each do |v|
+            def format(data)
+              result = CSV.generate(force_quotes: true) do |csv|
+                scrape_line(data).each do |v|
                   csv << v
                 end
               end
@@ -20,11 +20,11 @@ module Idcf
 
             protected
 
-            def scrape_line(data, err_f)
-              list = scrape(data, err_f)
+            def scrape_line(data)
+              list = scrape(data)
               return [] if list.size.zero?
 
-              result  = []
+              result = []
               headers = make_header(list.first)
               result << headers
               push_list(list, headers, result)
@@ -33,7 +33,7 @@ module Idcf
             def make_header(first_list)
               result = []
               if first_list.class == Hash
-                first_list.each do |k, _v|
+                first_list.each_key do |k|
                   result << k
                 end
               else
@@ -56,10 +56,8 @@ module Idcf
 
             # scrape
             # @param data [Hash]
-            # @param err_f [Boolean]
             # @return Array in Hash
-            def scrape(data, err_f)
-              return [flat_hash(data)] if err_f
+            def scrape(data)
               return [flat_hash(data)] if data.class == Hash
               return [[data]] unless data.class == Array
 
@@ -83,29 +81,14 @@ module Idcf
             end
 
             def flat_hash(data)
-              {}.tap do |result|
-                return {} unless data.class == Hash
-                data.each do |k, v|
-                  value = v
-                  arr_f = v.class == Array || v.class == Hash
-                  next if k != :message && arr_f
-                  value            = flat(value) if arr_f
-                  result[k.to_sym] = value
-                end
+              result = {}
+              return result unless data.class == Hash
+              data.each do |k, v|
+                value = v
+                value = JSON.generate(value) if v.class == Array || v.class == Hash
+                result[k.to_sym] = value
               end
-            end
-
-            def flat(list)
-              result = []
-              list.each do |k, v|
-                if list.class == Hash
-                  result << "#{k}:#{v.join('/')}"
-                  next
-                end
-                result << (v.nil? ? k : v)
-              end
-
-              result.join("\n")
+              result
             end
           end
         end

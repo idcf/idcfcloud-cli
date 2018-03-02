@@ -60,7 +60,7 @@ module Idcf
                 next
               end
             end
-            cli_error 'Validate load error'
+            cli_error('Validate load error')
           end
 
           # make validation error

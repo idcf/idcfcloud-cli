@@ -38,7 +38,7 @@ module Idcf
             end
 
             result
-          rescue
+          rescue StandardError => _e
             raise Idcf::Cli::Error::CliError, "Error: could not read '#{path}'"
           end
         end

@@ -1,4 +1,3 @@
-# coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'idcf/cli/version'
@@ -31,15 +30,15 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'activemodel', '~> 4.2', '>= 4.2.3'
   spec.add_dependency 'activesupport', '~> 4.2', '>= 4.2.3'
-  spec.add_dependency 'inifile', '~> 3.0', '>= 3.0.0'
-  spec.add_dependency 'thor', '~> 0.19.4'
   spec.add_dependency 'builder', '~> 3.1'
+  spec.add_dependency 'CFPropertyList', '~> 2.3.5'
+  spec.add_dependency 'facter', '~> 2.5.1'
+  spec.add_dependency 'idcf-faraday_middleware', '~> 0.0.2'
+  spec.add_dependency 'idcf-json_hyper_schema', '~> 0.2.0'
+  spec.add_dependency 'inifile', '~> 3.0', '>= 3.0.0'
+  spec.add_dependency 'jsonpath', '~> 0.8.10'
   spec.add_dependency 'kosi', '~> 1.0', '>= 1.0.0'
 
   spec.add_dependency 'open_uri_redirections', '~> 0.2.1'
-  spec.add_dependency 'idcf-json_hyper_schema', '~> 0.1.0'
-  spec.add_dependency 'idcf-faraday_middleware', '~> 0.0.2'
-  spec.add_dependency 'jsonpath', '~> 0.8.10'
-  spec.add_dependency 'facter', '~> 2.5.1'
-  spec.add_dependency 'CFPropertyList', '~> 2.3.5'
+  spec.add_dependency 'thor', '~> 0.19.4'
 end

@@ -21,19 +21,19 @@ module Idcf
 
           data(
             match:     {
-              list: %w(aaa aba),
+              list: %w[aaa aba],
               data: 'aaa'
             },
             match2:    {
-              list: %w(aaa aba),
+              list: %w[aaa aba],
               data: 'aba'
             },
             none_list: {
-              list: %w(),
+              list: %w[],
               data: 'aaa'
             },
             all_none:  {
-              list: %w(),
+              list: %w[],
               data: ''
             }
           )
@@ -45,15 +45,15 @@ module Idcf
 
           data(
             front:     {
-              list: %w(aaa aba),
+              list: %w[aaa aba],
               data: 'ab'
             },
             back:      {
-              list: %w(aaa aba),
+              list: %w[aaa aba],
               data: 'ba'
             },
             none_list: {
-              list: %w(aaa bbb),
+              list: %w[aaa bbb],
               data: ''
             }
           )

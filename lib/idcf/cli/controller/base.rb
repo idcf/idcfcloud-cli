@@ -11,6 +11,7 @@ require_relative './extend/init'
 require_relative './include/init'
 require 'jsonpath'
 require 'idcf/cli/lib/include/recurring_calling'
+require 'idcf/cli/lib/document'
 
 module Idcf
   module Cli
@@ -35,9 +36,13 @@ module Idcf
         class_option :no_vssl,
                      desc: 'not use verify ssl'
         class_option :json_path,
-                     desc: 'data filter json_path'
+                     aliases: '-j',
+                     desc:    'data filter json_path'
         class_option :fields,
-                     desc: 'field filter'
+                     aliases: '-f',
+                     desc:    'field filter'
+        class_option :version,
+                     desc: 'api version'
 
         attr_reader :config, :code_conf, :cmd, :m_classes
 
@@ -49,7 +54,11 @@ module Idcf
           attr_accessor :links
 
           def init(argv)
-            o = Thor::Options.new(class_options).parse(argv)
+            o       = Thor::Options.new(class_options).parse(argv)
+            region  = get_region(o)
+            version = service_version(o)
+            Idcf::Cli::Lib::Document.init(region: region, version: version)
+
             register_schema_method(o)
 
             make_module_classes.each do |cn, c|
@@ -83,28 +92,38 @@ module Idcf
             name.underscore.split('/').last
           end
 
-          # service version
+          # service version list
           #
-          # @param o [Hash]
-          # @return String
-          def service_version(o)
-            sn     = service_name
-            list   = Idcf::Cli::Lib::Configure.get_code_conf(sn, o)
-            result = o[:version].nil? ? list.keys.last : o[:version]
-            msg    = "not found input version[#{o[:version]}]"
-            raise Idcf::Cli::Error::CliError, msg unless list.keys.include?(result)
-            result
+          # @return [Array]
+          def service_versions(region)
+            [].tap do |result|
+              sn = service_name
+              Idcf::Cli::Lib::Configure.get_code_conf(sn).each do |k, v|
+                v['region'].each_key do |reg|
+                  next unless region == reg
+                  result << k
+                  break
+                end
+              end
+            end
           end
+        end
+
+        desc 'versions', 'versions'
+
+        def versions
+          list = self.class.service_versions(self.class.get_region(options))
+          puts make_result_str(make_result_data(list, options), options)
         end
 
         protected
 
         def execute(cmd, *args)
           data = run(cmd, args, options)
-          puts make_result_str(data, false, options)
+          puts make_result_str(data, options)
           Idcf::Cli::Lib::Util::CliLogger.delete
           Idcf::Cli::Lib::Util::CliLogger.cleaning(options)
-        rescue => e
+        rescue StandardError => e
           self.class.error_exit(e)
         end
 
@@ -202,24 +221,32 @@ module Idcf
 
         def make_result_data(data, o)
           format     = output_format(o, '')
-          table_flag = %w(csv table).include?(format)
+          table_flag = %w[csv table].include?(format)
           helper     = Idcf::Cli::Lib::Convert::Helper.new
 
-          if helper.filter_target?(o)
-            result = helper.filter(data, o, table_flag)
-          elsif table_flag
-            result = make_table_data(data)
-          else
-            result        = make_base_response
-            result[:data] = data
+          return data_filter(data, o, table_flag) if helper.filter_target?(o)
+          if table_flag
+            return data.class == Hash ? make_table_data(data) : data
           end
+          result        = make_base_response
+          result[:data] = data
           result
+        end
+
+        def data_filter(data, o, table_flag)
+          helper = Idcf::Cli::Lib::Convert::Helper.new
+          data   = make_field_data(data) if helper.only_filter_fields?(o)
+          [Hash, Array].include?(data.class) ? helper.filter(data, o, table_flag) : data
         end
 
         # table data
         # @param data [Hash]
         # @return Hash
         def make_table_data(data)
+          data
+        end
+
+        def make_field_data(data)
           data
         end
       end

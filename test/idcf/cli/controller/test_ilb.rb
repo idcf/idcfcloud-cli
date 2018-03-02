@@ -1,6 +1,7 @@
 require 'test/unit'
 require 'idcf/cli/controller/ilb'
 require_relative './test_extend/output.rb'
+require 'idcf/cli/conf/test_const'
 
 module Idcf
   module Cli
@@ -10,7 +11,9 @@ module Idcf
         include Idcf::Cli::Controller::TestExtend::Output
 
         def setup
-          @target = target_class.new
+          cls = target_class
+          target_class.init(Idcf::Cli::Conf::TestConst::OPTION_STR_LIST)
+          @target = cls.new
         end
 
         def cleanup
@@ -61,7 +64,7 @@ module Idcf
           assert_throw(:done) do
             begin
               @target.send(:do_command, :get_limit, [], data)
-            rescue
+            rescue StandardError => _e
               throw(:done)
             end
           end

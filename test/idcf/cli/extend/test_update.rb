@@ -161,11 +161,11 @@ module Idcf
               'piyo' => {}
             },
             after: {
-              'top'       => %w(test aa hoge piyo),
-              'hoge'      => %w(test2 bb piyo fuga),
-              'hoge_piyo' => %w(test3 cc),
-              'hoge_fuga' => %w(test3 dd),
-              'piyo'      => %w()
+              'top'       => %w[test aa hoge piyo],
+              'hoge'      => %w[test2 bb piyo fuga],
+              'hoge_piyo' => %w[test3 cc],
+              'hoge_fuga' => %w[test3 dd],
+              'piyo'      => %w[]
             }
           }
         )

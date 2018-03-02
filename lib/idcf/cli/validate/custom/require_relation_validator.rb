@@ -7,7 +7,7 @@ module Idcf
         # require relation validator
         class RequireRelationValidator < ActiveModel::EachValidator
           MESSAGES = {
-            message: 'A related parameter isn\'t input. (%s)'
+            message: 'A related parameter isn\'t input. (%<msg>s)'
           }.freeze
 
           def validate(record)
@@ -16,7 +16,7 @@ module Idcf
             nones = make_nones(record)
             return if nones.empty?
 
-            msg = MESSAGES[:message] % nones.join('/')
+            msg = format(MESSAGES[:message], msg: nones.join('/'))
             record.errors.add(nones.first, msg, {})
           end
 

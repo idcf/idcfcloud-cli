@@ -10,7 +10,7 @@ module Idcf
         module Formatter
           # xml formatter
           class XmlFormat < Base
-            def format(data, _err_f)
+            def format(data)
               data.to_xml(dasherize: false)
             end
           end

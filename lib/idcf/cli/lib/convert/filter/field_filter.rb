@@ -6,7 +6,7 @@ module Idcf
         module Filter
           # filter fields
           class FieldFilter < Base
-            MSG_NO_TARGETS = '[fields][%s] is not found.'.freeze
+            MSG_NO_TARGETS = '[fields][%<field>s] is not found.'.freeze
 
             # filter
             #
@@ -41,18 +41,15 @@ module Idcf
 
             def extraction(data, condition)
               check_extraction(data, condition)
-              {}.tap do |result|
-                condition.split(',').each do |key|
-                  next if key.empty?
+              result = {}
+              condition.split(',').each do |key|
+                next if key.blank?
 
-                  val = data[key]
-                  if @options[:table_flag]
-                    result[key] = [Array, Hash].include?(val.class) ? val.to_s : val
-                    next
-                  end
-                  result[key] = val
-                end
+                val         = data[key]
+                flg         = @options[:table_flag] && [Array, Hash].include?(val.class)
+                result[key] = flg ? val.to_s : val
               end
+              result
             end
 
             def check_extraction(data, condition)
@@ -63,7 +60,7 @@ module Idcf
               end
 
               return nil if no_targets.empty?
-              cli_error(MSG_NO_TARGETS % no_targets.join(','))
+              cli_error(format(MSG_NO_TARGETS, field: no_targets.join(',')))
             end
           end
         end
