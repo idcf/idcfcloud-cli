@@ -45,6 +45,22 @@ module Idcf
           make_params(args[url_param_names.size])
         end
 
+        def parent_titles(schema = nil)
+          result = []
+          if schema.present?
+            parent_schema = schema.parent
+            if parent_schema.present?
+              result << parent_schema.title if parent_schema.title.present?
+              result.concat(parent_titles(parent_schema))
+            end
+          else
+            result << title
+            result.concat(parent_titles(@data))
+            result.reverse!
+          end
+          result
+        end
+
         protected
 
         def make_result_api_params(target, args, api_result, resource_id)
@@ -79,7 +95,7 @@ module Idcf
         def result_api_str(target, args, api_result, resource_id)
           return resource_id if target == '#{resource_id}'
           result_api_str_regexp(target, args, api_result)
-        rescue => e
+        rescue Standarderror => e
           raise Idcf::Cli::Error::CliError, e.message
         end
 
@@ -109,16 +125,16 @@ module Idcf
         end
 
         def make_query_params(param)
-          {}.tap do |result|
-            next unless param.class == Hash
-            query_param_names.each do |k|
-              result[k] = param[k] if param.key?(k)
-              reg = Regexp.new("#{k}[\\.\\[].+")
-              param.keys.each do |pk|
-                result[pk] = param[pk] if (reg =~ pk).present?
-              end
+          result = {}
+          return result unless param.class == Hash
+          query_param_names.each do |k|
+            result[k] = param[k] if param.key?(k)
+            reg       = Regexp.new("#{k}[\\.\\[].+")
+            param.each_key do |pk|
+              result[pk] = param[pk] if (reg =~ pk).present?
             end
           end
+          result
         end
       end
     end

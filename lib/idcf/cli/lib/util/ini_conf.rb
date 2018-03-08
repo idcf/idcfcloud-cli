@@ -40,10 +40,10 @@ module Idcf
           def find(name, profile)
             begin
               @load_data[profile].fetch(name)
-            rescue
+            rescue StandardError => _e
               @load_data['default'].fetch(name)
             end
-          rescue
+          rescue StandardError => _e
             msg = "Error: could not read #{profile}:#{name}"
             raise Idcf::Cli::Error::CliError, msg
           end

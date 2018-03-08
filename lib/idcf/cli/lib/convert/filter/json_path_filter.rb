@@ -19,7 +19,7 @@ module Idcf
               end
               path = JsonPath.new(condition)
               path.on(data.to_json)
-            rescue => e
+            rescue StandardError => e
               cli_error("[json-path]#{e.message}")
             end
           end

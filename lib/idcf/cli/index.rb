@@ -28,11 +28,23 @@ module Idcf
         # @param arg [Hash] options
         def init(arg)
           map COMMAND_MAPS
+          add_classify_rule
           sub_command_regist('controller', File.dirname(__FILE__), arg)
         rescue Idcf::Cli::Error::CliError => e
           error_exit(e)
-        rescue => e
+        rescue StandardError => e
           error_exit(Idcf::Cli::Error::CliError.new(e.message))
+        end
+
+        protected
+
+        # add classify rule
+        def add_classify_rule
+          Idcf::Cli::Conf::Const::CLASSIFY_RULE.each do |rule|
+            ActiveSupport::Inflector.inflections do |inflect|
+              inflect.irregular(*rule)
+            end
+          end
         end
       end
 
@@ -48,7 +60,7 @@ module Idcf
       def init
         configure
         update
-      rescue => e
+      rescue StandardError => e
         self.class.error_exit(e)
       end
 
@@ -56,7 +68,7 @@ module Idcf
 
       def update
         do_update(options)
-      rescue => e
+      rescue StandardError => e
         self.class.error_exit(e)
       end
 
@@ -67,7 +79,7 @@ module Idcf
       def configure
         init_f = ARGV[0] == 'init'
         do_configure(options, init_f)
-      rescue => e
+      rescue StandardError => e
         self.class.error_exit(e)
       end
 
@@ -75,7 +87,7 @@ module Idcf
 
       def version
         puts Idcf::Cli::Conf::Const::VERSION_STR
-      rescue => e
+      rescue StandardError => e
         self.class.error_exit(e)
       end
     end

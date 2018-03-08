@@ -22,7 +22,7 @@ module Idcf
           end
 
           data(
-            valid_arr_e1: %w(aaa)
+            valid_arr_e1: %w[aaa]
           )
 
           def test_construction_make_validation_error(data)
@@ -42,8 +42,8 @@ module Idcf
               test:  'aaa',
               test2: 'bbb'
             },
-            valid_arr_e1: %w(aaa),
-            valid_arr_e2: %w(aaa bbb)
+            valid_arr_e1: %w[aaa],
+            valid_arr_e2: %w[aaa bbb]
           )
 
           def test_make_validation_error(data)

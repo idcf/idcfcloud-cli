@@ -22,7 +22,6 @@ module Idcf
           def make_module_classes
             return @m_classes if @m_classes
             result = {}
-            add_classify_rule
 
             make_service_paths.each do |fn, path|
               require path
@@ -30,15 +29,6 @@ module Idcf
             end
 
             @m_classes = result
-          end
-
-          # add classify rule
-          def add_classify_rule
-            Idcf::Cli::Conf::Const::CLASSIFY_RULE.each do |rule|
-              ActiveSupport::Inflector.inflections do |inflect|
-                inflect.irregular(*rule)
-              end
-            end
           end
 
           # make service paths

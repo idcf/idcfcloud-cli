@@ -9,17 +9,17 @@ module Idcf
           class TestBase < Test::Unit::TestCase
             ERROR_NO_DATA_ARRAY = {
               status: 400,
-              message: %w(msg msg2),
+              message: %w[msg msg2],
               data: []
             }.freeze
             ERROR_NO_DATA_HASH = {
               status: 400,
-              message: %w(msg msg2),
+              message: %w[msg msg2],
               data: {}
             }.freeze
             ERROR_EXIST_DATA = {
               status: 400,
-              message: %w(msg msg2),
+              message: %w[msg msg2],
               data: [1, 2]
             }.freeze
             FORMAT_VALIDATE_ERROR = {
@@ -48,7 +48,7 @@ module Idcf
             FORMAT_SUCCESS_FLAT_ARRAY_STR = {
               status: 200,
               message: [],
-              data: %w(10 20 30 40)
+              data: %w[10 20 30 40]
             }.freeze
             FORMAT_SUCCESS_ONE_DATA = {
               status: 200,

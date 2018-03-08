@@ -125,7 +125,7 @@ module Idcf
           assert_throw(:done) do
             begin
               @target.__send__(:between_param?, data)
-            rescue
+            rescue StandardError => _e
               throw(:done)
             end
           end

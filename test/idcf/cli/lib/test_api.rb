@@ -155,7 +155,7 @@ module Idcf
           assert_throw(:done) do
             begin
               @target.__send_(:do, data[:command], *data[:list])
-            rescue
+            rescue StandardError => _e
               throw(:done)
             end
           end
@@ -172,7 +172,7 @@ module Idcf
           assert_throw(:done) do
             begin
               @target.__send_(:do, data[:command], data[:list], {})
-            rescue
+            rescue StandardError => _e
               throw(:done)
             end
           end
@@ -182,22 +182,22 @@ module Idcf
           no_param:
             {
               title:  'no_param',
-              params: %w()
+              params: %w[]
             },
           uri_param:
             {
               title:  'uri_param',
-              params: %w(aaa)
+              params: %w[aaa]
             },
           uri_param_two:
             {
               title:  'uri_param_two',
-              params: %w(aaa bbb)
+              params: %w[aaa bbb]
             },
           get_param:
             {
               title:  'get_param',
-              params: %w()
+              params: %w[]
             },
           get_param2:
             {
@@ -212,7 +212,7 @@ module Idcf
           get_param_two:
             {
               title:  'get_param_two',
-              params: %w()
+              params: %w[]
             },
           get_param_two2:
             {
@@ -269,7 +269,7 @@ module Idcf
           post_param:
             {
               title:  'post_param',
-              params: %w()
+              params: %w[]
             },
           post_param_required:
             {
@@ -344,7 +344,7 @@ module Idcf
           get_post_param:
             {
               title:  'get_post_param',
-              params: %w()
+              params: %w[]
             },
           get_post_param2:
             {
@@ -492,7 +492,7 @@ module Idcf
             begin
               @target.__send__(:between_param, link, data[:params])
               throw(:done)
-            rescue
+            rescue StandardError => _e
               throw(:error)
             end
           end
@@ -502,197 +502,197 @@ module Idcf
           no_param:
             {
               title:  'no_param',
-              params: %w(aaa)
+              params: %w[aaa]
             },
           uri_param:
             {
               title:  'uri_param',
-              params: %w()
+              params: %w[]
             },
           uri_param2:
             {
               title:  'uri_param',
-              params: %w(aaa bbb)
+              params: %w[aaa bbb]
             },
           uri_param_two:
             {
               title:  'uri_param_two',
-              params: %w(aaa)
+              params: %w[aaa]
             },
           uri_param_two2:
             {
               title:  'uri_param_two',
-              params: %w(aaa bbb ccc)
+              params: %w[aaa bbb ccc]
             },
           get_param:
             {
               title:  'get_param',
-              params: %w(aaa bbb)
+              params: %w[aaa bbb]
             },
           get_param_two:
             {
               title:  'get_param_two',
-              params: %w(aaa bbb)
+              params: %w[aaa bbb]
             },
           get_param_required:
             {
               title:  'get_param_required',
-              params: %w()
+              params: %w[]
             },
           get_param_required2:
             {
               title:  'get_param_required',
-              params: %w(aaa bbb)
+              params: %w[aaa bbb]
             },
           get_param_two_one_required:
             {
               title:  'get_param_two_one_required',
-              params: %w()
+              params: %w[]
             },
           get_param_two_one_required2:
             {
               title:  'get_param_two_one_required',
-              params: %w(aaa bbb)
+              params: %w[aaa bbb]
             },
           get_param_two_all_required:
             {
               title:  'get_param_two_all_required',
-              params: %w()
+              params: %w[]
             },
           get_param_two_all_required2:
             {
               title:  'get_param_two_all_required',
-              params: %w(aaa bbb)
+              params: %w[aaa bbb]
             },
           post_param_required:
             {
               title:  'post_param_required',
-              params: %w()
+              params: %w[]
             },
           post_param_required2:
             {
               title:  'post_param_required',
-              params: %w(aaa bbb ccc)
+              params: %w[aaa bbb ccc]
             },
           uri_get_param:
             {
               title:  'uri_get_param',
-              params: %w()
+              params: %w[]
             },
           uri_get_param_required:
             {
               title:  'uri_get_param_required',
-              params: %w()
+              params: %w[]
             },
           uri_get_param_required2:
             {
               title:  'uri_get_param_required',
-              params: %w(aaa)
+              params: %w[aaa]
             },
           uri_get_param_required3:
             {
               title:  'uri_get_param_required',
-              params: %w(aaa bbb ccc)
+              params: %w[aaa bbb ccc]
             },
           uri_post_param:
             {
               title:  'uri_post_param',
-              params: %w()
+              params: %w[]
             },
           uri_post_param2:
             {
               title:  'uri_post_param',
-              params: %w(aaa bbb ccc)
+              params: %w[aaa bbb ccc]
             },
           uri_post_param3:
             {
               title:  'uri_post_param',
-              params: %w(aaa bbb ccc)
+              params: %w[aaa bbb ccc]
             },
           uri_post_param_required:
             {
               title:  'uri_post_param_required',
-              params: %w()
+              params: %w[]
             },
           uri_post_param_required2:
             {
               title:  'uri_post_param_required',
-              params: %w(aaa)
+              params: %w[aaa]
             },
           uri_post_param_required3:
             {
               title:  'uri_post_param_required',
-              params: %w(aaa bbb ccc)
+              params: %w[aaa bbb ccc]
             },
           get_post_param_get_required:
             {
               title:  'get_post_param_get_required',
-              params: %w()
+              params: %w[]
             },
           get_post_param_get_required2:
             {
               title:  'get_post_param_get_required',
-              params: %w(aaa bbb)
+              params: %w[aaa bbb]
             },
           get_post_param_post_required:
             {
               title:  'get_post_param_post_required',
-              params: %w()
+              params: %w[]
             },
           get_post_param_post_required2:
             {
               title:  'get_post_param_post_required',
-              params: %w(aaa bbb)
+              params: %w[aaa bbb]
             },
           get_post_param_required:
             {
               title:  'get_post_param_required',
-              params: %w()
+              params: %w[]
             },
           get_post_param_required2:
             {
               title:  'get_post_param_required',
-              params: %w(aaa bbb)
+              params: %w[aaa bbb]
             },
           all_param:
             {
               title:  'all_param',
-              params: %w()
+              params: %w[]
             },
           all_param2:
             {
               title:  'all_param',
-              params: %w(aaa bbb ccc)
+              params: %w[aaa bbb ccc]
             },
           all_param_get_required:
             {
               title:  'all_param_get_required',
-              params: %w()
+              params: %w[]
             },
           all_param_get_required2:
             {
               title:  'all_param_get_required',
-              params: %w(aaa)
+              params: %w[aaa]
             },
           all_param_post_required:
             {
               title:  'all_param_post_required',
-              params: %w()
+              params: %w[]
             },
           all_param_post_required2:
             {
               title:  'all_param_post_required',
-              params: %w(aaa)
+              params: %w[aaa]
             },
           all_param_required:
             {
               title:  'all_param_required',
-              params: %w()
+              params: %w[]
             },
           all_param_required2:
             {
               title:  'all_param_required',
-              params: %w(aaa)
+              params: %w[aaa]
             }
         )
 
@@ -701,7 +701,7 @@ module Idcf
           assert_throw(:done) do
             begin
               @target.__send__(:between_param, link, data[:params])
-            rescue
+            rescue StandardError => _e
               throw(:done)
             end
           end

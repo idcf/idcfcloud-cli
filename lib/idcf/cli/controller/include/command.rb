@@ -20,7 +20,7 @@ module Idcf
             args.each do |v|
               begin
                 result << JSON.parse(v, symbolize_names: false)
-              rescue
+              rescue StandardError => _e
                 result << v
               end
             end

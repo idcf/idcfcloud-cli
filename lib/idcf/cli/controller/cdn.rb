@@ -8,6 +8,9 @@ module Idcf
       class Cdn < Base
         default_command :help
 
+        class_option :version,
+                     desc: 'API Version'
+
         class << self
           def description
             'Contents Cache Service'

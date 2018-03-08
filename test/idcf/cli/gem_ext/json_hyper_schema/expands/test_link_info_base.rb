@@ -91,12 +91,12 @@ module Idcf
               result_api_1_str_params:
                 {
                   title:  'result_api_1_str_params',
-                  result: %w(aaa)
+                  result: %w[aaa]
                 },
               result_api_2_str_params:
                 {
                   title:  'result_api_2_str_params',
-                  result: %w(aaa bbb)
+                  result: %w[aaa bbb]
                 },
               result_api_numeric_params:
                 {
@@ -160,7 +160,7 @@ module Idcf
                   result:
                          [
                            {
-                             'aaa' => %w(bbb ccc)
+                             'aaa' => %w[bbb ccc]
                            }
                          ]
                 },
@@ -179,50 +179,50 @@ module Idcf
               result_api_input_param:
                 {
                   title:  'result_api_input_param',
-                  args:   %w(input_value1),
-                  result: %w(input_value1)
+                  args:   %w[input_value1],
+                  result: %w[input_value1]
                 },
               result_api_result_param:
                 {
                   title:  'result_api_result_param',
-                  args:   %w(input_value1),
-                  result: %w(configure_0)
+                  args:   %w[input_value1],
+                  result: %w[configure_0]
                 },
               result_api_result_param2:
                 {
                   title:  'result_api_result_param2',
-                  args:   %w(input_value1),
-                  result: %w(configure_1_name)
+                  args:   %w[input_value1],
+                  result: %w[configure_1_name]
                 },
               result_api_not_async_resource_id_param:
                 {
                   title: 'result_api_not_async_resource_id_param',
-                  args:  %w(input_value1),
+                  args:  %w[input_value1],
                   result:
                          [nil]
                 },
               result_api_async_resource_id_param:
                 {
                   title:  'result_api_async_resource_id_param',
-                  args:   %w(input_value1),
-                  result: %w(resource_001)
+                  args:   %w[input_value1],
+                  result: %w[resource_001]
                 },
               result_api_input_and_result_param:
                 {
                   title:  'result_api_input_and_result_param',
-                  args:   %w(input_value1),
-                  result: %w(input_value1 configure_0)
+                  args:   %w[input_value1],
+                  result: %w[input_value1 configure_0]
                 },
               result_api_all_param:
                 {
                   title:  'result_api_all_param',
-                  args:   %w(input_value1),
-                  result: %w(input_value1 configure_0 resource_001)
+                  args:   %w[input_value1],
+                  result: %w[input_value1 configure_0 resource_001]
                 },
               result_api_hash_param:
                 {
                   title: 'result_api_hash_param',
-                  args:  %w(input_value1 input_value2),
+                  args:  %w[input_value1 input_value2],
                   result:
                          [
                            'input_value1',
@@ -266,7 +266,7 @@ module Idcf
               assert_throw(:done) do
                 begin
                   link.result_api_params([], {}, nil)
-                rescue
+                rescue StandardError => _e
                   throw(:done)
                 end
               end

@@ -20,18 +20,18 @@ module Idcf
             data(err: ERROR_NO_DATA_ARRAY)
 
             def test_format_error_msg(data)
-              str = <<"EOT"
-<?xml version="1.0" encoding="UTF-8"?>
-<hash>
-  <status type="integer">400</status>
-  <message type="array">
-    <message>msg</message>
-    <message>msg2</message>
-  </message>
-  <data type="array"/>
-</hash>
-EOT
-              assert_equal(@target.format(data, true).strip, str.strip)
+              str = <<-XML.strip_heredoc
+                <?xml version="1.0" encoding="UTF-8"?>
+                <hash>
+                  <status type="integer">400</status>
+                  <message type="array">
+                    <message>msg</message>
+                    <message>msg2</message>
+                  </message>
+                  <data type="array"/>
+                </hash>
+              XML
+              assert_equal(@target.format(data).strip, str.strip)
             end
           end
         end

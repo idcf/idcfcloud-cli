@@ -1,5 +1,5 @@
 require 'test/unit'
-require 'idcf/cli/lib/convert/filter/show_filter'
+require 'idcf/cli/lib/convert/filter/field_filter'
 
 module Idcf
   module Cli
@@ -7,11 +7,11 @@ module Idcf
       module Convert
         module Filter
           # test json path filter
-          class TestShowFilter < Test::Unit::TestCase
+          class TestFieldFilter < Test::Unit::TestCase
             @target = nil
 
             def setup
-              @target = ShowFilter.new
+              @target = FieldFilter.new
             end
 
             def cleanup
@@ -37,13 +37,13 @@ module Idcf
                   condition: '',
                   result:    12_345
                 },
-              true:
+              bool_true:
                 {
                   data:      true,
                   condition: '',
                   result:    true
                 },
-              false:
+              bool_false:
                 {
                   data:      false,
                   condition: '',
@@ -157,7 +157,7 @@ module Idcf
                                'id'   => 'id_1-1-1',
                                'hoge' => 'hoge_1-1-1'
                              },
-                             'array'         => %w(1 2),
+                             'array'         => %w[1 2],
                              'array_in_hash' => [
                                {
                                  'str' => 'test_str_1-1-1',
@@ -177,7 +177,7 @@ module Idcf
                                'id'   => 'id_1-2-1',
                                'hoge' => 'hoge_1-2-1'
                              },
-                             'array'         => %w(1 2),
+                             'array'         => %w[1 2],
                              'array_in_hash' => [
                                {
                                  'str' => 'test_str_1-2-1',
@@ -199,7 +199,7 @@ module Idcf
                                'id'   => 'id_1-1-1',
                                'hoge' => 'hoge_1-1-1'
                              },
-                             'array'         => %w(1 2),
+                             'array'         => %w[1 2],
                              'array_in_hash' => [
                                {
                                  'str' => 'test_str_1-1-1',
@@ -217,7 +217,7 @@ module Idcf
                                'id'   => 'id_1-2-1',
                                'hoge' => 'hoge_1-2-1'
                              },
-                             'array'         => %w(1 2),
+                             'array'         => %w[1 2],
                              'array_in_hash' => [
                                {
                                  'str' => 'test_str_1-2-1',
@@ -237,7 +237,7 @@ module Idcf
             )
 
             def test_filter_no_table(data)
-              obj = ShowFilter.new(table_flag: false)
+              obj = FieldFilter.new(table_flag: false)
               assert_equal(obj.filter(data[:data], data[:condition]), data[:result])
             end
 
@@ -249,7 +249,7 @@ module Idcf
                     'id'   => 'id_1-1-1',
                     'hoge' => 'hoge_1-1-1'
                   }.to_s,
-                  'array'         => %w(1 2).to_s,
+                  'array'         => %w[1 2].to_s,
                   'array_in_hash' => [
                     {
                       'str' => 'test_str_1-1-1',
@@ -267,7 +267,7 @@ module Idcf
                     'id'   => 'id_1-2-1',
                     'hoge' => 'hoge_1-2-1'
                   }.to_s,
-                  'array'         => %w(1 2).to_s,
+                  'array'         => %w[1 2].to_s,
                   'array_in_hash' => [
                     {
                       'str' => 'test_str_1-2-1',
@@ -286,7 +286,7 @@ module Idcf
             )
 
             def test_filter_table(data)
-              obj = ShowFilter.new(table_flag: true)
+              obj = FieldFilter.new(table_flag: true)
               assert_equal(obj.filter(data[:data], data[:condition]), data[:result])
             end
 
@@ -304,12 +304,12 @@ module Idcf
                 condition: '$',
                 result:    12_345
               },
-              true:   {
+              bool_true:   {
                 data:      true,
                 condition: '$',
                 result:    true
               },
-              false:  {
+              bool_false:  {
                 data:      false,
                 condition: '$',
                 result:    false
@@ -320,7 +320,7 @@ module Idcf
               assert_throw(:done) do
                 begin
                   @target.filter(data[:data], data[:condition])
-                rescue
+                rescue StandardError => _e
                   throw(:done)
                 end
               end

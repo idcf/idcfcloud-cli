@@ -7,9 +7,9 @@ module Idcf
         module Formatter
           # table formatter
           class TableFormat < CsvFormat
-            def format(data, err_f)
+            def format(data)
               require 'kosi'
-              Kosi::Table.new.render(scrape_line(data, err_f))
+              Kosi::Table.new.render(scrape_line(data))
             end
           end
         end

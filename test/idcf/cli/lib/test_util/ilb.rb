@@ -34,7 +34,7 @@ module Idcf
                   servers:
                                       [
                                         {
-                                          ipaddress: '0.0.0.0',
+                                          ipaddress: '192.0.2.0',
                                           port:      80
                                         }
                                       ]

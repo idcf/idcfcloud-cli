@@ -54,7 +54,7 @@ module Idcf
           def faraday_setting(faraday, o)
             prof = Idcf::Cli::Lib::Configure.get_profile(o)
             op   = {}
-            [:api_key, :secret_key].each do |v|
+            %i[api_key secret_key].each do |v|
               op[v] = o.key?(v) ? o[v] : Idcf::Cli::Lib::Configure.get_user_conf(v.to_s, prof)
             end
             faraday.request(faraday_request)

@@ -32,8 +32,8 @@ module Idcf
             #
             # @param msg [String]
             def output_skip_info(msg)
-              info = caller.first.split('/').pop(3).join('/')
-              puts format("\nskip: %s \nmsg: %s", info, msg)
+              info = caller(1..1).first.split('/').pop(3).join('/')
+              puts format("\nskip: %<info>s \nmsg: %<msg>s", info: info, msg: msg)
             end
           end
         end

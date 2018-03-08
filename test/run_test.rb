@@ -9,10 +9,13 @@ require 'test/unit/notify' unless ENV['DISABLE_TEST_NOTIFY']
 require 'idcf/cli/validate/custom/init'
 require 'idcf/cli/conf/const'
 require 'idcf/cli/error/init'
+require 'idcf/cli/index'
 
 $LOAD_PATH.unshift(test_dir)
 $LOAD_PATH.unshift(lib_dir)
 
 ENV['TEST_UNIT_MAX_DIFF_TARGET_STRING_SIZE'] ||= '5000'
+
+Idcf::Cli::Index.__send__(:add_classify_rule)
 
 exit Test::Unit::AutoRunner.run(true, test_dir)

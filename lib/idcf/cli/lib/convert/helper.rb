@@ -9,16 +9,15 @@ module Idcf
       module Convert
         # format helper
         class Helper
-          FILTER_OPTION = [:json_path, :fields].freeze
+          FILTER_OPTION = %i[json_path fields].freeze
 
           # data convert
           #
           # @param data [Hash]
-          # @param err_f [Boolean]
           # @param f [String] format
           # @return String
-          def format(data, err_f, f)
-            cls_load("Formatter::#{f.classify}Format").new.format(data, err_f)
+          def format(data, f)
+            cls_load("Formatter::#{f.classify}Format").new.format(data)
           end
 
           # is filter target
@@ -31,6 +30,19 @@ module Idcf
             false
           end
 
+          # only filter
+          #
+          # @param o [Hash]
+          # @return Boolean
+          def only_filter_fields?(o)
+            return false if o[:fields].nil?
+            list = []
+            FILTER_OPTION.each do |k|
+              list << k if o[k].present?
+            end
+            list.count == 1
+          end
+
           # data convert
           #
           # @param data [Hash]
@@ -38,7 +50,6 @@ module Idcf
           # @param table_flag [Boolean]
           # @return Hash
           def filter(data, o, table_flag)
-            return data unless [Hash, Array].include?(data.class)
             result = data.deep_dup
             FILTER_OPTION.each do |k|
               next if o[k].nil? || o[k].empty?

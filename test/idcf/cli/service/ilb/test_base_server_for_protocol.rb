@@ -127,7 +127,7 @@ module Idcf
             assert_throw(:done) do
               begin
                 @target.__send__(:between_param?, data)
-              rescue
+              rescue StandardError => _e
                 throw(:done)
               end
             end
@@ -141,7 +141,7 @@ module Idcf
             assert_throw(:done) do
               begin
                 @target.__send__(:do_command, *data)
-              rescue
+              rescue StandardError => _e
                 throw(:done)
               end
             end
@@ -172,7 +172,8 @@ module Idcf
           )
 
           def test_search_config(data)
-            config = @target.__send__(:search_config, lbs_sample[data[:target]], data[:protocol], data[:port])
+            configs = lbs_sample[data[:target]]['configs']
+            config = @target.__send__(:search_config, configs, data[:protocol], data[:port])
             assert_equal(config['id'], data[:result])
           end
 
@@ -204,7 +205,7 @@ module Idcf
             assert_throw(:done) do
               begin
                 @target.__send__(:search_config, lbs_sample[data[:target]], data[:protocol], data[:port])
-              rescue
+              rescue StandardError => _e
                 throw(:done)
               end
             end

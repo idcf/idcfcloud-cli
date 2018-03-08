@@ -16,7 +16,7 @@ module Idcf
 
         class << self
           def description
-            'Computeing Service(beta)'
+            'Computeing Service'
           end
         end
 
@@ -36,6 +36,20 @@ module Idcf
         def faraday_options(faraday)
           faraday.options.params_encoder = Faraday::FlatParamsEncoder
           faraday
+        end
+
+        def make_table_data(data)
+          return data unless data.class == Hash
+          keys = data.keys
+          return data unless keys.count == 2 && keys.include?('count')
+          data.each do |k, v|
+            return v unless k == 'count'
+          end
+          data
+        end
+
+        def make_field_data(data)
+          make_table_data(data)
         end
 
         # raise api error msg

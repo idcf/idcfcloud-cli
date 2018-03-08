@@ -8,9 +8,8 @@ module Idcf
             # format
             #
             # @param _data [Hash]
-            # @param _err_f [Boolean]
             # @return String
-            def format(_data, _err_f)
+            def format(_data)
               raise Idcf::Cli::Error::CliError, 'override'
             end
           end

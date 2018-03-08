@@ -33,7 +33,8 @@ class Thor
         file_name = File.basename(f, '.*')
         next if file_name == 'base'
 
-        command_regist file_name, "#{b_path}/#{under_path}/#{file_name}", arg
+        require_path = "#{b_path}/#{under_path}/#{file_name}"
+        command_regist(file_name, require_path, arg)
       end
     end
 
@@ -46,7 +47,8 @@ class Thor
       require require_path
 
       class_const = require_path.classify.constantize
-      class_const.init(arg)
+      class_const.init(arg) if arg.include?(command) || map.values.include?(command.to_sym)
+
       register class_const,
                command,
                "#{command_help_string(command)} [OPTION]",
@@ -72,7 +74,7 @@ class Thor
 
     def subcommand_structure
       {}.tap do |result|
-        commands.each do |k, _v|
+        commands.each_key do |k|
           result[k.to_s] = nil
         end
         result = subcommand_class_structure(result)
@@ -95,6 +97,7 @@ class Thor
 
     def subcommand_class_structure(result)
       subcommand_classes.each do |k, v|
+        v.init({})
         commands       = v.subcommand_structure
         result[k.to_s] = nil
         result[k.to_s] = commands unless commands.empty?

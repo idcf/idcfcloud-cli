@@ -86,7 +86,7 @@ module Idcf
             assert_throw(:done) do
               begin
                 assert(@target.__send__(:do, api, o, job['id']))
-              rescue
+              rescue StandardError => _e
                 throw(:done)
               end
             end

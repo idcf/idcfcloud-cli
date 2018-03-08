@@ -40,7 +40,7 @@ module Idcf
             profile = get_profile(o)
 
             return get_user_conf(path, profile)
-          rescue
+          rescue StandardError => _e
             return code_config.find(path) if code_config
             f_path       = Idcf::Cli::Conf::Const::CODE_CONF_PATH
             @code_config = Idcf::Cli::Lib::Util::YmlConf.new(f_path)
@@ -65,7 +65,7 @@ module Idcf
             region = ''
             region = get_user_conf('region', get_profile(o)) if read_conf
             region.empty? ? 'default' : region
-          rescue
+          rescue StandardError => _e
             'default'
           end
 

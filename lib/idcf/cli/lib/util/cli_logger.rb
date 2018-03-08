@@ -12,7 +12,7 @@ module Idcf
         class CliLogger
           class << self
             attr_reader :logger, :current_path
-            LOG_METHODS = %w(debug error fatal info unknown warn).freeze
+            LOG_METHODS = %w[debug error fatal info unknown warn].freeze
 
             def log_instance
               return nil unless output_log?
@@ -68,7 +68,7 @@ module Idcf
               return false unless conf.get_user_conf('output_log').casecmp('y').zero?
               path = conf.get_user_conf('log_path')
               path.present?
-            rescue => _e
+            rescue StandardError => _e
               false
             end
 
@@ -77,7 +77,7 @@ module Idcf
 
               path = "#{base_path}/#{Idcf::Cli::Conf::Const::LOG_FILE_NAME}"
               File.expand_path(path)
-            rescue => _e
+            rescue StandardError => _e
               nil
             end
 

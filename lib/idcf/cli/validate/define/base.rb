@@ -16,12 +16,13 @@ module Idcf
                         :no_ssl,
                         :no_vssl,
                         :json_path,
-                        :fields
+                        :fields,
+                        :version
 
           validates :output,
                     allow_blank: true,
                     inclusion:   {
-                      in:      %w(table json xml csv),
+                      in:      %w[table json xml csv],
                       message: 'from this [table/json/xml/csv]'
                     }
 

@@ -12,10 +12,10 @@ module Idcf
           # @param err_f [Boolean]
           # @param o [Hash]
           # @return Stirng
-          def make_result_str(data, err_f, o)
+          def make_result_str(data, o)
             message = data.class == Hash ? data[:message] : {}
             f       = output_format(o, message)
-            Idcf::Cli::Lib::Convert::Helper.new.format(data, err_f, f)
+            Idcf::Cli::Lib::Convert::Helper.new.format(data, f)
           end
 
           # output format
@@ -25,9 +25,7 @@ module Idcf
           # @return String
           def output_format(o, message)
             default_output = Idcf::Cli::Lib::Configure.get_code_conf('output', o)
-            if message.class == Hash && !message[:output].nil?
-              return default_output
-            end
+            return default_output if message.class == Hash && !message[:output].nil?
 
             f = o[:output]
             f.nil? ? default_output : f

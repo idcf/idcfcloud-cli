@@ -29,8 +29,8 @@ module Idcf
               },
             str_only:
               {
-                before: %w(aaa),
-                after:  %w(aaa)
+                before: %w[aaa],
+                after:  %w[aaa]
               },
             json_only:
               {
