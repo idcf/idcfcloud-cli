@@ -154,7 +154,7 @@ module Idcf
         def output_manual_writing(paths)
           puts 'please write in'
           Idcf::Cli::Conf::Const::COMP_PATHS.each do |k, v|
-            puts v, paths[k]
+            puts v, "source #{paths[k]}"
           end
         end
 
