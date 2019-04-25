@@ -1,7 +1,3 @@
-This project has not been updated.  
-Please use idcfcloud-cli.  
-https://github.com/idcf/idcfcloud-cli
-
 # idcfcloud-cli
 
 ## Installation
