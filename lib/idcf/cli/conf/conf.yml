@@ -18,12 +18,6 @@ your:
       default:
         schema: https://your.idcfcloud.com/api/v1/schema
         host: your.idcfcloud.com
-cdn:
-  v0:
-    region:
-      default:
-        schema: https://cdn.idcfcloud.com/api/v1/schema
-        host: cdn.idcfcloud.com
 dns:
   v1:
     region:

@@ -1,5 +1,4 @@
 require_relative './base'
-require 'idcf/faraday_middleware/cdn_signature'
 
 module Idcf
   module Cli
