@@ -70,8 +70,6 @@ idcfcloud your list_billing_history --json-path '$.data[?(@.month=="2017-10")]' 
 
 [ILB](#ilb)
 
-[CDN](#cdn)
-
 [DNS](#dns)
 
 [Your](#your)
@@ -125,10 +123,6 @@ sslalgorithms_ids
 ``` code
 $ idcfcloud ilb sslalgorithms_ids
 ```
-
-### CDN<a name="cdn"></a>
-
-https://www.idcf.jp/help/cache/docs/pdf/cache_api.pdf?cl=rd_0046
 
 ### DNS<a name="dns"></a>
 
