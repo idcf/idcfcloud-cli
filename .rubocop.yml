@@ -28,7 +28,7 @@ LineLength:
   Exclude:
     - 'test/**/*'
 Style/ClassLength:
-  Max: 150
+  Max: 160
   Exclude:
     - 'test/**/*'
 Style/ModuleLength:
@@ -38,4 +38,14 @@ Style/ModuleLength:
 ParameterLists:
   Max: 6
 Style/DoubleNegation:
+  Enabled: false
+Style/SymbolArray:
+  Exclude:
+    - 'test/**/*'
+Style/IndentHeredoc:
+  EnforcedStyle: active_support
+Style/PercentLiteralDelimiters:
+  Exclude:
+    - 'test/**/*'
+Lint/InterpolationCheck:
   Enabled: false

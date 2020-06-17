@@ -6,7 +6,7 @@ module Idcf
         BASE_PATH       = File.expand_path('..', dir_path).freeze
         DATA_DIR        = File.expand_path('data', BASE_PATH)
         TEST_NAME       = 'test-cli-lb-'.freeze
-        OPTION_STR_LIST = %w[--region jp-east].freeze
+        OPTION_STR_LIST = %W[--region #{ENV.fetch('TEST_REGION', 'jp-east')}].freeze
       end
     end
   end
