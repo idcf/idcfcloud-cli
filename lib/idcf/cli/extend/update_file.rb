@@ -66,7 +66,7 @@ module Idcf
         end
 
         def file_load(path)
-          open(path).read
+          URI.open(path).read
         rescue StandardError => _e
           nil
         end
