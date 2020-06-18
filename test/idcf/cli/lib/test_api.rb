@@ -13,7 +13,17 @@ module Idcf
 
         def setup
           param   = { links: links }
-          @target = Idcf::Cli::Lib::Api.new(param)
+          # MEMO:
+          # The following warning appears in Ruby 2.7 series.
+          #
+          # Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
+          #
+          # If you want to support only Ruby 2.7 or higher, it is not necessary to distinguish between cases, but it is not so.
+          @target = if RUBY_VERSION >= '2.7'
+                      Idcf::Cli::Lib::Api.new(**param)
+                    else
+                      Idcf::Cli::Lib::Api.new(param)
+                    end
         end
 
         def cleanup

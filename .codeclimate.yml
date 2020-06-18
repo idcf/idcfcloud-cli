@@ -12,11 +12,23 @@ engines:
     enabled: true
   rubocop:
     enabled: true
+  structure:
+    exclude_paths:
+      - 'test/**/*'
 ratings:
   paths:
     - "**.rb"
+checks:
+  argument-count:
+    config:
+      threshold: 6
+  method-complexity:
+      config:
+        threshold: 9
+
 exclude_paths:
   - vendor/bundle
   - .idea
   - bin
   - doc
+  - output

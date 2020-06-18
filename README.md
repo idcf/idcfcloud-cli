@@ -78,7 +78,7 @@ idcfcloud your list_billing_history --json-path '$.data[?(@.month=="2017-10")]' 
 
 versions
 
-Get a supported API version. 
+Get a supported API version.
 
 ```code
 $ idcfcloud your versions
@@ -132,15 +132,28 @@ http://docs.idcf.jp/cloud/dns/#s_fid=4FEB16B56007BA5C-0BFB42ABA668ADA8
 
 http://docs.idcf.jp/cloud/billing/
 
-## Development
+## Development && Test
 
 Running the following test code is possible, but not recommended nor supported.  Run only a code of a target.
 
+🚨NOTE 🚨
+
+- Be sure to specify `test/run_test.rb` before the test target.
+- The test environment is not standalone. You need to apply for services and prepare your own environment.
+  At least an [ILB](https://www.idcf.jp/cloud/ilb/) is required to pass all tests.
+- If you do not specify the region properly with the environment variable `TEST_REGION (default: jp-east)`, the test will not pass.
+
 ```code
-$ bundle exec ruby test/run_test.rb idcf/cli/controller/test_your.rb
+$ TEST_REGION=your_region bundle exec ruby test/run_test.rb idcf/cli/controller/test_your.rb
 ```
 
 In order to avoid collapsed setting in ILB, make sure you understand how things work before running a code.
+
+#### environments
+
+|name|description|
+|----|-----------|
+|`TEST_REGION`|Region used in the test. (jp-east・jp-east-2・jp-west)|
 
 ## Contributing
 
