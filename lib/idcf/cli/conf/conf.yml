@@ -9,6 +9,9 @@ ilb:
       jp-east-2:
         schema: https://ilb.jp-east-2.idcfcloud.com/api/v1/schema
         host: ilb.jp-east-2.idcfcloud.com
+      jp-east-3:
+        schema: https://ilb.jp-east-3.idcfcloud.com/api/v1/schema
+        host: ilb.jp-east-3.idcfcloud.com
       jp-west:
         schema: https://ilb.jp-west.idcfcloud.com/api/v1/schema
         host: ilb.jp-west.idcfcloud.com
@@ -33,6 +36,9 @@ compute:
       jp-east-2:
         schema: https://compute.jp-east-2.idcfcloud.com/api/v1/schema
         host: compute.jp-east-2.idcfcloud.com
+      jp-east-3:
+        schema: https://compute.jp-east-3.idcfcloud.com/api/v1/schema
+        host: compute.jp-east-3.idcfcloud.com
       jp-west:
         schema: https://compute.jp-west.idcfcloud.com/api/v1/schema
         host: compute.jp-west.idcfcloud.com

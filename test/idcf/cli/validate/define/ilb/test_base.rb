@@ -30,6 +30,9 @@ module Idcf
                 region: 'jp-east-2'
               },
               reason_exist3: {
+                region: 'jp-east-3'
+              },
+              reason_exist4: {
                 region: 'jp-west'
               }
             )
