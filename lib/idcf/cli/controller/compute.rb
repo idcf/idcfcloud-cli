@@ -11,7 +11,7 @@ module Idcf
                      type:    :string,
                      aliases: '-r',
                      require: true,
-                     desc:    'region: jp-east/jp-east-2/jp-west'
+                     desc:    'region: jp-east/jp-east-2/jp-east-3/jp-west'
 
         class << self
           def description

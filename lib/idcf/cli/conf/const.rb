@@ -23,7 +23,7 @@ module Idcf
         CODE_CONF_PATH            = "#{BASE_PATH}/idcf/cli/conf/conf.yml".freeze
         USER_CONF_PATH            = "#{USER_DIR_PATH}/config.ini".freeze
         USER_CONF_GLOBAL          = "#{BASE_PATH}/../config/config.ini".freeze
-        REGIONS                   = %w[jp-east jp-east-2 jp-west].freeze
+        REGIONS                   = %w[jp-east jp-east-2 jp-east-3 jp-west].freeze
         GLOBAL_CONF_ITEMS         =
           {
             output_log: {
