@@ -17,7 +17,7 @@ module Idcf
             return if nones.empty?
 
             msg = format(MESSAGES[:message], msg: nones.join('/'))
-            record.errors.add(nones.first, msg, {})
+            record.errors.add(nones.first, msg, **{})
           end
 
           protected

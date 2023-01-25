@@ -15,9 +15,9 @@ module Idcf
 
           def validate_each(record, attr, val)
             str = MESSAGES[:format]
-            return record.errors.add(attr, str, {}) unless format?(val)
+            return record.errors.add(attr, str, **{}) unless format?(val)
             str = MESSAGES[:invalid]
-            return record.errors.add(attr, str, {}) unless valid?(val)
+            return record.errors.add(attr, str, **{}) unless valid?(val)
           end
 
           protected
