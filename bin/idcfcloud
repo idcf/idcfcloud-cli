@@ -14,4 +14,12 @@ ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../../Gemfile",
 require "rubygems"
 require "bundler/setup"
 
+require "net/https"
+Net::HTTP.prepend(Module.new do
+  def use_ssl=(flag)
+    super
+    self.ciphers = "DEFAULT:!DH"
+  end
+end)
+
 load Gem.bin_path("idcfcloud", "idcfcloud")

@@ -11,6 +11,14 @@ require 'idcf/cli/conf/const'
 require 'idcf/cli/error/init'
 require 'idcf/cli/index'
 
+require 'net/https'
+Net::HTTP.prepend(Module.new do
+  def use_ssl=(flag)
+    super
+    self.ciphers = 'DEFAULT:!DH'
+  end
+end)
+
 $LOAD_PATH.unshift(test_dir)
 $LOAD_PATH.unshift(lib_dir)
 
