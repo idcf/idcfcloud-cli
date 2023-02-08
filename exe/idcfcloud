@@ -1,5 +1,13 @@
 require 'idcf/cli/index'
 
+require "net/https"
+Net::HTTP.prepend(Module.new do
+  def use_ssl=(flag)
+    super
+    self.ciphers = "DEFAULT:!DH"
+  end
+end)
+
 if ARGV[0] && %w(morio).include?(ARGV[0].downcase)
   cls = "idcf/cli/command/#{ARGV[0].downcase}"
   require cls
