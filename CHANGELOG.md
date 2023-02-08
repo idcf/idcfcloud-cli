@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.4
+
+* Change ciphers setting
+
 ## 1.1.3
 
 * Change ciphers setting
