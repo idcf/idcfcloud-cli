@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.5
+
+* Change supported version to ruby 2.7 or higher
+
 ## 1.1.4
 
 * Change ciphers setting
