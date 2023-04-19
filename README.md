@@ -2,7 +2,7 @@
 
 ## Installation
 
-Note: requires Ruby 2.2.7 or higher.
+Note: requires Ruby 2.7.0 or higher.
 
 Carry out the next command to initialize.
 
@@ -153,7 +153,7 @@ In order to avoid collapsed setting in ILB, make sure you understand how things 
 
 |name|description|
 |----|-----------|
-|`TEST_REGION`|Region used in the test. (jp-east・jp-east-2・jp-west)|
+|`TEST_REGION`|Region used in the test. (jp-east・jp-east-2・jp-east-3・jp-west)|
 
 ## Contributing
 
