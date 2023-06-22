@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.6
+
+* Change for ruby 3.0 format
+
 ## 1.1.5
 
 * Change supported version to ruby 2.7 or higher
