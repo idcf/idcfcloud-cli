@@ -56,7 +56,7 @@ module Idcf
               fo = {
                 table_flag: table_flag
               }
-              result = cls_load("Filter::#{k.to_s.classify}Filter").new(fo).filter(result, o[k])
+              result = cls_load("Filter::#{k.to_s.classify}Filter").new(**fo).filter(result, o[k])
             end
             result
           end
