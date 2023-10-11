@@ -25,20 +25,18 @@ module Idcf
               return [] if list.size.zero?
 
               result = []
-              headers = make_header(list.first)
+              headers = make_header(list)
               result << headers
               push_list(list, headers, result)
             end
 
-            def make_header(first_list)
-              result = []
-              if first_list.class == Hash
-                first_list.each_key do |k|
-                  result << k
-                end
-              else
-                result = [*(0..(first_list.size - 1))]
-              end
+            def make_header(list)
+              first_list = list.first
+              result = if first_list.class == Hash
+                         list.map(&:keys).flatten.uniq
+                       else
+                         [*(0..(first_list.size - 1))]
+                       end
               result
             end
 
