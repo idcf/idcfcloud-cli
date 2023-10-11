@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.7
+
+* Change some output logic
+
 ## 1.1.6
 
 * Change for ruby 3.0 format

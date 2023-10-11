@@ -60,7 +60,6 @@ module Idcf
               end
 
               return nil if no_targets.empty?
-              cli_error(format(MSG_NO_TARGETS, field: no_targets.join(',')))
             end
           end
         end

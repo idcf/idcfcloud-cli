@@ -18,6 +18,10 @@ module Idcf
         def make_table_data(data)
           data['data']
         end
+
+        def make_field_data(data)
+          make_table_data(data)
+        end
       end
     end
   end
