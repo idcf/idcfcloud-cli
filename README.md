@@ -74,6 +74,8 @@ idcfcloud your list_billing_history --json-path '$.data[?(@.month=="2017-10")]' 
 
 [Your](#your)
 
+[Autoscale](#autoscale)
+
 ### Common Features
 
 versions
@@ -131,6 +133,10 @@ http://docs.idcf.jp/cloud/dns/#s_fid=4FEB16B56007BA5C-0BFB42ABA668ADA8
 ### Your<a name="your"></a>
 
 http://docs.idcf.jp/cloud/billing/
+
+### Autoscale<a name="autoscale"></a>
+
+https://idcf.jp/api-docs/apis/?id=docs_compute-autoscale_reference
 
 ## Development && Test
 

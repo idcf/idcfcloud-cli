@@ -42,3 +42,9 @@ compute:
       jp-west:
         schema: https://compute.jp-west.idcfcloud.com/api/v1/schema
         host: compute.jp-west.idcfcloud.com
+autoscale:
+  v1:
+    region:
+      default:
+        schema: https://compute.idcfcloud.com/api/v1/autoscale/schema
+        host: compute.idcfcloud.com
