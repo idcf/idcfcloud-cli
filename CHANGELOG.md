@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.8
+
+* Add autoscale service
+
 ## 1.1.7
 
 * Change some output logic
